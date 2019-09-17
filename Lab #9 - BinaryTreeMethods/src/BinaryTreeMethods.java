@@ -31,7 +31,6 @@ public final class BinaryTreeMethods {
      */
     public static <T> int height(BinaryTree<T> t) {
         assert t != null : "Violation of: t is not null";
-
         return 0;
     }
 
@@ -49,6 +48,62 @@ public final class BinaryTreeMethods {
     public static <T> int heightIterative(BinaryTree<T> t) {
         assert t != null : "Violation of: t is not null";
         return 0;
+    }
+
+    /**
+     * Returns the size of the given {@code BinaryTree<T>}.
+     *
+     * @param <T>
+     *
+     * @param <T>
+     *            the type of the {@code BinaryTree} node labels
+     * @param t
+     *            the {@code BinaryTree} whose size to return
+     * @return the size of the given {@code BinaryTree}
+     * @ensures size = |t|
+     */
+    public static <T> int size(BinaryTree<T> t) {
+        int treeSize = 0;
+
+        if (t.height() == 1) {
+            treeSize = 1;
+        }
+
+        if (t.height() > 1) {
+            BinaryTree<T> left = t.newInstance();
+            BinaryTree<T> right = t.newInstance();
+            T root = t.disassemble(left, right);
+            treeSize += height(left);
+            treeSize += height(right);
+            t.assemble(root, left, right);
+        }
+
+        return treeSize + 1; //including the root
+    }
+
+    /**
+     * Returns the size of the given {@code BinaryTree<T>}.
+     *
+     * @param <T>
+     *
+     * @param <T>
+     *            the type of the {@code BinaryTree} node labels
+     * @param t
+     *            the {@code BinaryTree} whose size to return
+     * @return the size of the given {@code BinaryTree}
+     * @ensures size = |t|
+     */
+    public static <T> int sizeIterative(BinaryTree<T> t) {
+        int treeSize = 0;
+
+        while (!t.root().equals(null)) {
+            BinaryTree<T> left = t.newInstance();
+            BinaryTree<T> right = t.newInstance();
+            T root = t.disassemble(left, right);
+        }
+
+        return treeSize;
+
     }
 
     /**
