@@ -7,7 +7,7 @@ import components.binarytree.BinaryTree;
 /**
  * JUnit test fixture for {@code BinaryTree<String>}'s methods.
  *
- * @author Paolo Bucci
+ * @author Henry Zhang
  *
  */
 public final class BinaryTreeMethodsTest {

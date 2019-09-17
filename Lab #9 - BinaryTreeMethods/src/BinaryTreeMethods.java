@@ -31,23 +31,36 @@ public final class BinaryTreeMethods {
      */
     public static <T> int height(BinaryTree<T> t) {
         assert t != null : "Violation of: t is not null";
-        return 0;
-    }
+        int treeHeight = 1, leftTreeHeight = 0, rightTreeHeight = 0;
 
-    /**
-     * Returns the height of the given {@code BinaryTree<T>}. This is the
-     * iterative version
-     *
-     * @param <T>
-     *            the type of the {@code BinaryTree} node labels
-     * @param t
-     *            the {@code BinaryTree} whose height to return
-     * @return the height of the given {@code BinaryTree}
-     * @ensures height = ht(t)
-     */
-    public static <T> int heightIterative(BinaryTree<T> t) {
-        assert t != null : "Violation of: t is not null";
-        return 0;
+        if (t.size() == 0) {
+            treeHeight = 0;
+        }
+
+        else if (t.size() > 1) {
+
+            BinaryTree<T> left = t.newInstance();
+            BinaryTree<T> right = t.newInstance();
+            T root = t.disassemble(left, right);
+            leftTreeHeight += height(left);
+            rightTreeHeight += height(right);
+            t.assemble(root, left, right);
+
+            if (leftTreeHeight > rightTreeHeight) {
+                treeHeight = treeHeight + leftTreeHeight;
+            }
+
+            if (rightTreeHeight > leftTreeHeight) {
+                treeHeight = treeHeight + rightTreeHeight;
+            }
+
+            else {
+                treeHeight = treeHeight + rightTreeHeight;
+            }
+
+        }
+
+        return treeHeight;
     }
 
     /**
@@ -73,8 +86,8 @@ public final class BinaryTreeMethods {
             BinaryTree<T> left = t.newInstance();
             BinaryTree<T> right = t.newInstance();
             T root = t.disassemble(left, right);
-            treeSize += height(left);
-            treeSize += height(right);
+            treeSize += size(left);
+            treeSize += size(right);
             t.assemble(root, left, right);
         }
 
@@ -82,7 +95,7 @@ public final class BinaryTreeMethods {
     }
 
     /**
-     * Returns the size of the given {@code BinaryTree<T>}.
+     * Returns the size of the given {@code BinaryTree<T>}. iterative
      *
      * @param <T>
      *
@@ -94,12 +107,10 @@ public final class BinaryTreeMethods {
      * @ensures size = |t|
      */
     public static <T> int sizeIterative(BinaryTree<T> t) {
-        int treeSize = 0;
+        int treeSize = 1;
 
-        while (!t.root().equals(null)) {
-            BinaryTree<T> left = t.newInstance();
-            BinaryTree<T> right = t.newInstance();
-            T root = t.disassemble(left, right);
+        for (T entry : t) {
+            treeSize++;
         }
 
         return treeSize;
@@ -123,11 +134,25 @@ public final class BinaryTreeMethods {
     public static <T> boolean isInTree(BinaryTree<T> t, T x) {
         assert t != null : "Violation of: t is not null";
         assert x != null : "Violation of: x is not null";
+        boolean isInTree = false;
 
-        // TODO - fill in body
+        if ((t.size() == 1 && t.root().equals(x)) || (t.root().equals(x))) {
+            isInTree = true;
+        }
 
-        // This line added just to make the component compilable.
-        return false;
+        else if (t.size() > 1) {
+            BinaryTree<T> left = t.newInstance();
+            BinaryTree<T> right = t.newInstance();
+            T root = t.disassemble(left, right);
+            isInTree = isInTree(left, x);
+            if (isInTree == false) {
+                isInTree = isInTree(right, x);
+            }
+            t.assemble(root, left, right);
+
+        }
+
+        return isInTree;
     }
 
     /**
