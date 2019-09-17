@@ -46,11 +46,12 @@ public final class HashingExploration {
             String line = textFile.nextLine();
             if (!counted.contains(line)) {
                 int bucket = mod(hashCode(line), hashTableSize);
-                if (counts.mayBeExamined(bucket)) {
-                    counts.setEntry(bucket, counts.entry(bucket) + 1);
-                } else {
-                    counts.setEntry(bucket, 1);
-                }
+//                if (counts.mayBeExamined(bucket)) {
+//                    counts.setEntry(bucket, counts.entry(bucket) + 1);
+//                } else {
+//                    counts.setEntry(bucket, 1);
+//                }
+                counts.setEntry(bucket, counts.entry(bucket) + 1);
                 counted.add(line);
             }
         }
