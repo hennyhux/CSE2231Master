@@ -50,4 +50,40 @@ public final class BinarySearchTreeMethodsTest {
     // TODO: add here other test cases for BinarySearchTreeMethods.isInTree
     // (and for BinarySearchTreeMethods.removeSmallest)
 
+    @Test
+    public void testNotInTreeHeight2() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("b", "a", "c");
+        BinaryTree<String> t2 = createBSTFromArgs("b", "a", "c");
+        /*
+         * Call method under test
+         */
+        boolean inTree = BinarySearchTreeMethods.isInTree(t1, "e");
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(false, inTree);
+        assertEquals(t2, t1);
+    }
+
+    @Test
+    public void testInTreeHeight3() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("b", "a", "c", "d");
+        BinaryTree<String> t2 = createBSTFromArgs("b", "a", "c", "d");
+        /*
+         * Call method under test
+         */
+        boolean inTree = BinarySearchTreeMethods.isInTree(t1, "d");
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(true, inTree);
+        assertEquals(t2, t1);
+    }
+
 }

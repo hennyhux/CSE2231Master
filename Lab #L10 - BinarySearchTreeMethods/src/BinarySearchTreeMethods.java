@@ -18,7 +18,7 @@ import components.simplewriter.SimpleWriter1L;
  *   it has no duplicate labels]
  * </pre>
  *
- * @author Put your name here
+ * @author Henry Zhang
  *
  */
 public final class BinarySearchTreeMethods {
@@ -45,10 +45,25 @@ public final class BinarySearchTreeMethods {
     public static <T extends Comparable<T>> boolean isInTree(BinaryTree<T> t,
             T x) {
 
-        // TODO - fill in body
+        boolean isInTree = false;
+        BinaryTree<T> left = t.newInstance();
+        BinaryTree<T> right = t.newInstance();
+        T root = t.disassemble(left, right);
 
-        // This line added just to make the component compilable.
-        return false;
+        if (root.compareTo(x) == 0) {
+            isInTree = true;
+        }
+
+        if (root.compareTo(x) > 0) {
+            isInTree = isInTree(left, x);
+        }
+
+        if (root.compareTo(x) < 0) {
+            isInTree = isInTree(right, x);
+        }
+        t.assemble(root, left, right);
+
+        return isInTree;
     }
 
     /**
