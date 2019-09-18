@@ -245,8 +245,9 @@ public class Map4<K, V> extends MapSecondary<K, V> {
     @Override
     public final Pair<K, V> removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
-
+        int bucket = 0;
         return null;
+
     }
 
     @Override

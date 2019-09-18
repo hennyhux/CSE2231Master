@@ -156,6 +156,24 @@ public final class BinaryTreeMethods {
     }
 
     /**
+     * Constructs and returns the {@code BinaryTree<String>} corresponding to
+     * the given {@code String}.
+     *
+     * @param str
+     *            the prefix representation of a {@code BinaryTree<String>}
+     * @return the {@code BinaryTree<String>} corresponding to {@code str}
+     * @requires <pre>
+     * [str is the prefix representation of a BinaryTree<String>
+     *  where the String representations of the labels of the tree do not
+     *  contain the characters '(' and ')']
+     * </pre>
+     * @ensures treeFromString = [the BinaryTree<String> corresponding to str]
+     */
+    public static BinaryTree<String> treeFromString(String str) {
+        return null;
+    }
+
+    /**
      * Main method.
      *
      * @param args
