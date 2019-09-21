@@ -1,5 +1,7 @@
 import java.util.Iterator;
 
+import org.junit.Test;
+
 import components.queue.Queue;
 import components.queue.Queue1L;
 import components.set.Set;
@@ -45,7 +47,27 @@ public class Set2<T> extends SetSecondary<T> {
     private static <T> void moveToFront(Queue<T> q, T x) {
         assert q != null : "Violation of: q is not null";
 
-        // TODO - fill in body
+        int length = q.length();
+        int cycle = 0;
+        Queue<T> qCopy = q.newInstance();
+        Queue<T> qFront = q.newInstance();
+        q.flip();
+
+        while (cycle < length) {
+            T entry = q.dequeue();
+
+            if (entry.equals(x)) {
+                qFront.enqueue(entry);
+            }
+
+            else {
+                qCopy.enqueue(entry);
+                cycle++;
+            }
+        }
+
+        qFront.append(qCopy);
+        q.transferFrom(qFront);
 
     }
 
@@ -112,8 +134,7 @@ public class Set2<T> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert !this.contains(x) : "Violation of: x is not in this";
 
-        // TODO - fill in body
-
+        this.elements.enqueue(x);
     }
 
     @Override
@@ -121,44 +142,45 @@ public class Set2<T> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert this.contains(x) : "Violation of: x is in this";
 
-        // TODO - fill in body
+        moveToFront(this.elements, x);
 
-        // This line added just to make the component compilable.
-        return null;
+        return this.elements.dequeue();
     }
 
     @Override
     public final T removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return null;
+        return this.elements.dequeue();
     }
 
     @Override
     public final boolean contains(T x) {
         assert x != null : "Violation of: x is not null";
 
-        // TODO - fill in body
+        moveToFront(this.elements, x);
 
-        // This line added just to make the component compilable.
-        return false;
+        return this.elements.front().equals(x);
     }
 
     @Override
     public final int size() {
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return 0;
+        return this.elements.length();
     }
 
     @Override
     public final Iterator<T> iterator() {
         return this.elements.iterator();
+    }
+
+    /*
+     * Private methods Tests---------------------------------------------------
+     */
+
+    @Test
+    private void treyWay() {
+
     }
 
 }

@@ -1,18 +1,22 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import components.sequence.Sequence;
 
 /**
  * JUnit test fixture for {@code Sequence<String>}'s constructor and kernel
  * methods.
- * 
+ *
  * @author Put your name here
- * 
+ *
  */
 public abstract class SequenceTest {
 
     /**
      * Invokes the appropriate {@code Sequence} constructor for the
      * implementation under test and returns the result.
-     * 
+     *
      * @return the new sequence
      * @ensures constructorTest = <>
      */
@@ -21,17 +25,17 @@ public abstract class SequenceTest {
     /**
      * Invokes the appropriate {@code Sequence} constructor for the reference
      * implementation and returns the result.
-     * 
+     *
      * @return the new sequence
      * @ensures constructorRef = <>
      */
     protected abstract Sequence<String> constructorRef();
 
     /**
-     * 
+     *
      * Creates and returns a {@code Sequence<String>} of the implementation
      * under test type with the given entries.
-     * 
+     *
      * @param args
      *            the entries for the sequence
      * @return the constructed sequence
@@ -46,10 +50,10 @@ public abstract class SequenceTest {
     }
 
     /**
-     * 
+     *
      * Creates and returns a {@code Sequence<String>} of the reference
      * implementation type with the given entries.
-     * 
+     *
      * @param args
      *            the entries for the sequence
      * @return the constructed sequence
@@ -64,5 +68,85 @@ public abstract class SequenceTest {
     }
 
     // TODO - add test cases for constructor, add, remove, and length
+
+//    @Test
+//    public void testsetLengthOfLeftStack() {
+//        /*
+//         * Set up variables and call method under test
+//         */
+//        Sequence<String> left = this.createFromArgsTest("1", "2" ,"3", "4", "5");
+//        Sequence<String> leftExpected = this.createFromArgsRef("4", "3" , "2" , "1");
+//        Sequence<String> right = this.createFromArgsTest("6", "7", "8");
+//        Sequence<String> rightExpected = this.createFromArgsRef("5", "6", "7", "8");
+//
+//
+//        /*
+//         * Assert that values of variables match expectations
+//         */
+//        assertEquals(left, );
+//    }
+//
+
+    @Test
+    public void testLength() {
+        /*
+         * Set up variables and call method under test if applicable
+         */
+        Sequence<String> s = this.createFromArgsTest("A", "B", "C", "D");
+        int sLength = s.length();
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(sLength, 4);
+
+    }
+
+    @Test
+    public void testEmptyConstructor() {
+        /*
+         * Set up variables and call method under test if applicable
+         */
+        Sequence<String> s = this.constructorTest();
+        Sequence<String> sExpected = this.constructorRef();
+
+        /*
+         * Assert that values of variables match expectations
+         */
+
+        assertEquals(s, sExpected);
+
+    }
+
+    @Test
+    public void testNonEmptyConstructor() {
+        /*
+         * Set up variables and call method under test if applicable
+         */
+        Sequence<String> s = this.createFromArgsTest("A", "B", "C", "D");
+        Sequence<String> sExpected = this.createFromArgsRef("A", "B", "C", "D");
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(s, sExpected);
+
+    }
+
+    @Test
+    public void testAdd() {
+        /*
+         * Set up variables and call method under test if applicable
+         */
+        Sequence<String> s = this.createFromArgsTest("A", "B", "C");
+        Sequence<String> sExpected = this.createFromArgsRef("A", "B", "C", "D");
+        s.add(3, "D");
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(s, sExpected);
+
+    }
 
 }

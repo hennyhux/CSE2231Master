@@ -101,48 +101,55 @@ public final class HashingExploration {
      */
     public static int mod(int a, int b) {
         assert b > 0 : "Violation of: b > 0";
-        int moduloResult = 0;
-        //Positive a
-        if (a >= 0) {
+//        int moduloResult = 0;
+//        //Positive a
+//        if (a >= 0) {
+//
+//            if (a == b || a % b == 0) {
+//                moduloResult = 0;
+//            }
+//
+//            if (a < b) {
+//                moduloResult = a;
+//            }
+//
+//            if (a > b) {
+//                moduloResult = a % b;
+//            }
+//        }
+//
+//        //Negative a
+//        if (a < 0) {
+//            int temporaryPostiveA = -(a);
+//
+//            if (temporaryPostiveA > b) {
+//
+//                int temporaryModuloResult = temporaryPostiveA % b;
+//                if (temporaryModuloResult == 0) {
+//                    moduloResult = temporaryModuloResult;
+//                }
+//
+//                else {
+//                    moduloResult = b - temporaryModuloResult;
+//                }
+//            }
+//
+//            if (temporaryPostiveA < b) {
+//                moduloResult = b - temporaryPostiveA;
+//            }
+//
+//            if (temporaryPostiveA == b) {
+//                moduloResult = 0;
+//
+//            }
+//
+//        }
+//
+//        return moduloResult;
 
-            if (a == b || a % b == 0) {
-                moduloResult = 0;
-            }
-
-            if (a < b) {
-                moduloResult = a;
-            }
-
-            if (a > b) {
-                moduloResult = a % b;
-            }
-        }
-
-        //Negative a
-        if (a < 0) {
-            int temporaryPostiveA = -(a);
-
-            if (temporaryPostiveA > b) {
-
-                int temporaryModuloResult = temporaryPostiveA % b;
-                if (temporaryModuloResult == 0) {
-                    moduloResult = temporaryModuloResult;
-                }
-
-                else {
-                    moduloResult = b - temporaryModuloResult;
-                }
-            }
-
-            if (temporaryPostiveA < b) {
-                moduloResult = b - temporaryPostiveA;
-            }
-
-            if (temporaryPostiveA == b) {
-                moduloResult = 0;
-
-            }
-
+        int moduloResult = a % b;
+        if (a < 0 && moduloResult != 0) {
+            moduloResult = moduloResult + b;
         }
 
         return moduloResult;

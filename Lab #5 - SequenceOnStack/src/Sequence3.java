@@ -60,7 +60,16 @@ public class Sequence3<T> extends SequenceSecondary<T> {
         assert newLeftLength <= leftStack.length() + rightStack.length() : ""
                 + "Violation of: newLeftLength <= |leftStack| + |rightStack|";
 
-        // TODO - fill in body
+        leftStack.flip();
+        while (leftStack.length() < newLeftLength) {
+            T entry = leftStack.pop();
+            rightStack.push(entry);
+        }
+
+        while (leftStack.length() > newLeftLength) {
+            T entry = rightStack.pop();
+            leftStack.push(entry);
+        }
 
     }
 
@@ -130,7 +139,8 @@ public class Sequence3<T> extends SequenceSecondary<T> {
         assert 0 <= pos : "Violation of: 0 <= pos";
         assert pos <= this.length() : "Violation of: pos <= |this|";
 
-        // TODO - fill in body
+        setLengthOfLeftStack(this.left, this.right, pos);
+        this.left.push(x);
 
     }
 
@@ -148,10 +158,7 @@ public class Sequence3<T> extends SequenceSecondary<T> {
     @Override
     public final int length() {
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return 0;
+        return this.left.length() + this.right.length();
     }
 
     @Override
