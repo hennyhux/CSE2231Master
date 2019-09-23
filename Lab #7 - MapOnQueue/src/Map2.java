@@ -56,7 +56,27 @@ public class Map2<K, V> extends MapSecondary<K, V> {
         assert q != null : "Violation of: q is not null";
         assert key != null : "Violation of: key is not null";
 
-        // TODO - fill in body
+        int length = q.length();
+        int cycle = 0;
+        Queue<Pair<K, V>> qCopy = q.newInstance();
+        Queue<Pair<K, V>> qFront = q.newInstance();
+        q.flip();
+
+        while (cycle < length) {
+            Pair<K, V> entry = q.dequeue();
+
+            if (entry.key().equals(key)) {
+                qFront.enqueue(entry);
+            }
+
+            else {
+                qCopy.enqueue(entry);
+                cycle++;
+            }
+        }
+
+        qFront.append(qCopy);
+        q.transferFrom(qFront);
 
     }
 
@@ -76,7 +96,6 @@ public class Map2<K, V> extends MapSecondary<K, V> {
      */
     public Map2() {
         this.createNewRep();
-        System.out.print("hello world");
     }
 
     /*
@@ -125,8 +144,6 @@ public class Map2<K, V> extends MapSecondary<K, V> {
         assert value != null : "Violation of: value is not null";
         assert !this.hasKey(key) : "Violation of: key is not in DOMAIN(this)";
 
-        // TODO - fill in body
-
     }
 
     @Override
@@ -144,9 +161,6 @@ public class Map2<K, V> extends MapSecondary<K, V> {
     public final Pair<K, V> removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
         return null;
     }
 
@@ -165,19 +179,13 @@ public class Map2<K, V> extends MapSecondary<K, V> {
     public final boolean hasKey(K key) {
         assert key != null : "Violation of: key is not null";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
         return false;
     }
 
     @Override
     public final int size() {
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return 0;
+        return this.pairsQueue.length();
     }
 
     @Override

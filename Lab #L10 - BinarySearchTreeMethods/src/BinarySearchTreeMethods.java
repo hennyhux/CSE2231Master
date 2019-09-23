@@ -29,6 +29,24 @@ public final class BinarySearchTreeMethods {
     private BinarySearchTreeMethods() {
     }
 
+    public static int leafSum(BinaryTree<Integer> t) {
+        int sum = 0;
+
+        if (t.size() == 1) {
+            sum += t.root();
+        }
+
+        else if (t.size() > 1) {
+            BinaryTree<Integer> left = t.newInstance();
+            BinaryTree<Integer> right = t.newInstance();
+            int root = t.disassemble(left, right);
+            sum = root + leafSum(left) + leafSum(right);
+            t.assemble(root, left, right);
+        }
+
+        return sum;
+    }
+
     /**
      * Returns whether {@code x} is in {@code t}.
      *
@@ -46,22 +64,20 @@ public final class BinarySearchTreeMethods {
             T x) {
 
         boolean isInTree = false;
-        BinaryTree<T> left = t.newInstance();
-        BinaryTree<T> right = t.newInstance();
-        T root = t.disassemble(left, right);
 
-        if (root.compareTo(x) == 0) {
+        if (t.size() > 1 && t.root().equals(x)
+                || t.size() == 1 && t.root().equals(x)) {
             isInTree = true;
         }
 
-        if (root.compareTo(x) > 0) {
-            isInTree = isInTree(left, x);
-        }
+        else if (t.size() > 1) {
+            BinaryTree<T> left = t.newInstance();
+            BinaryTree<T> right = t.newInstance();
+            T root = t.disassemble(left, right);
+            isInTree = isInTree(left, x) || isInTree(right, x);
+            t.assemble(root, left, right);
 
-        if (root.compareTo(x) < 0) {
-            isInTree = isInTree(right, x);
         }
-        t.assemble(root, left, right);
 
         return isInTree;
     }
@@ -87,6 +103,25 @@ public final class BinarySearchTreeMethods {
 
         // This line added just to make the component compilable.
         return null;
+    }
+
+    /**
+     * Inserts {@code x} in {@code t}.
+     *
+     * @param <T>
+     *            type of {@code BinaryTree} labels
+     * @param t
+     *            the {@code BinaryTree} to be searched
+     * @param x
+     *            the label to be inserted
+     * @aliases reference {@code x}
+     * @updates t
+     * @requires IS_BST(t) and x is not in labels(t)
+     * @ensures IS_BST(t) and labels(t) = labels(#t) union {x}
+     */
+    public static <T extends Comparable<T>> void insertInTree(BinaryTree<T> t,
+            T x) {
+
     }
 
     /**

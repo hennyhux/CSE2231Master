@@ -29,6 +29,24 @@ public final class BinarySearchTreeMethodsTest {
         return t;
     }
 
+    /**
+     * Constructs and return a BST created by inserting the given {@code args}
+     * into an empty tree in the order in which they are provided.
+     *
+     * @param args
+     *            the {@code String}s to be inserted in the tree
+     * @return the BST with the given {@code String}s
+     * @requires [the Strings in args are all distinct]
+     * @ensures createBSTFromArgs = [the BST with the given Strings]
+     */
+    private static BinaryTree<Integer> createBSTFromIntArgs(Integer... args) {
+        BinaryTree<Integer> t = new BinaryTree1<Integer>();
+        for (Integer s : args) {
+            BinaryTreeUtility.insertInTree(t, s);
+        }
+        return t;
+    }
+
     @Test
     public void sampleTest() {
         /*
@@ -86,4 +104,101 @@ public final class BinarySearchTreeMethodsTest {
         assertEquals(t2, t1);
     }
 
+    /*
+     * EXAM QUESTION TEST CASES ------------------------------------------------
+     */
+    @Test
+    public void testLeafSumHeight1Size1() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<Integer> t1 = createBSTFromIntArgs(5);
+        BinaryTree<Integer> t2 = createBSTFromIntArgs(5);
+        /*
+         * Call method under test
+         */
+        int sum = BinarySearchTreeMethods.leafSum(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(t2, t1);
+        assertEquals(sum, 5);
+
+    }
+
+    @Test
+    public void testLeafSumHeight2Size2() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<Integer> t1 = createBSTFromIntArgs(5, 10);
+        BinaryTree<Integer> t2 = createBSTFromIntArgs(5, 10);
+        /*
+         * Call method under test
+         */
+        int sum = BinarySearchTreeMethods.leafSum(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(t2, t1);
+        assertEquals(sum, 15);
+
+    }
+
+    @Test
+    public void testLeafSumHeight2Size3() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<Integer> t1 = createBSTFromIntArgs(5, 10, 15);
+        BinaryTree<Integer> t2 = createBSTFromIntArgs(5, 10, 15);
+        /*
+         * Call method under test
+         */
+        int sum = BinarySearchTreeMethods.leafSum(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(t2, t1);
+        assertEquals(sum, 30);
+
+    }
+
+    @Test
+    public void testLeafSumHeight3Size4() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<Integer> t1 = createBSTFromIntArgs(5, 10, 15, 20);
+        BinaryTree<Integer> t2 = createBSTFromIntArgs(5, 10, 15, 20);
+        /*
+         * Call method under test
+         */
+        int sum = BinarySearchTreeMethods.leafSum(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(t2, t1);
+        assertEquals(sum, 50);
+
+    }
+
+    @Test
+    public void testLeafSumHeight3Size5() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<Integer> t1 = createBSTFromIntArgs(5, 10, 15, 20, 40);
+        BinaryTree<Integer> t2 = createBSTFromIntArgs(5, 10, 15, 20, 40);
+        /*
+         * Call method under test
+         */
+        int sum = BinarySearchTreeMethods.leafSum(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(t2, t1);
+        assertEquals(sum, 90);
+
+    }
 }
