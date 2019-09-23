@@ -219,11 +219,8 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert value != null : "Violation of: value is not null";
         assert !this.hasKey(key) : "Violation of: key is not in DOMAIN(this)";
 
-        int hashcode = key.hashCode();
-        int bucket = mod(hashcode, this.hashTable.length());
-        Map<K, V> entry = this.hashTable.entry(bucket);
-        entry.add(key, value);
-        this.hashTable.setEntry(bucket, entry);
+        int bucket = mod(key.hashCode(), this.hashTable.length());
+        this.hashTable.entry(bucket).add(key, value);
         this.size++;
 
     }
@@ -233,20 +230,21 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
-        int hashcode = key.hashCode();
-        int bucket = mod(hashcode, this.hashTable.length());
-        Map<K, V> entry = this.hashTable.entry(bucket);
-        Pair<K, V> removedElement = entry.remove(key);
+        int bucket = mod(key.hashCode(), this.hashTable.length());
         this.size--;
+        return this.hashTable.entry(bucket).remove(key);
 
-        return removedElement;
     }
 
     @Override
     public final Pair<K, V> removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
         int bucket = 0;
-        return null;
+        while (this.hashTable.entry(bucket).size() == 0) { // find next bucket with items in it
+            bucket++;
+        }
+        this.size--;
+        return this.hashTable.entry(bucket).removeAny();
 
     }
 
@@ -255,12 +253,10 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
-        int hashcode = key.hashCode();
-        int bucket = mod(hashcode, this.hashTable.length());
-        Map<K, V> entry = this.hashTable.entry(bucket);
-        V removedElement = entry.value(key);
+        int bucket = mod(key.hashCode(), this.hashTable.length());
 
-        return removedElement;
+        return this.hashTable.entry(bucket).value(key);
+
     }
 
     @Override

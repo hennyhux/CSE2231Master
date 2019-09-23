@@ -86,8 +86,7 @@ public final class BinaryTreeMethods {
             BinaryTree<T> left = t.newInstance();
             BinaryTree<T> right = t.newInstance();
             T root = t.disassemble(left, right);
-            treeSize += size(left);
-            treeSize += size(right);
+            treeSize += size(left) + size(right);
             t.assemble(root, left, right);
         }
 
@@ -117,6 +116,25 @@ public final class BinaryTreeMethods {
 
     }
 
+    @Exam
+    public static int leafSum(BinaryTree<Integer> t) {
+        int sum = 0;
+
+        if (t.size() == 1) {
+            sum += t.root();
+        }
+
+        else if (t.size() > 1) {
+            BinaryTree<Integer> left = t.newInstance();
+            BinaryTree<Integer> right = t.newInstance();
+            int root = t.disassemble(left, right);
+            sum = root + leafSum(left) + leafSum(right);
+            t.assemble(root, left, right);
+        }
+
+        return sum;
+    }
+
     /**
      * Returns true if the given {@code T} is in the given {@code BinaryTree<T>}
      * or false otherwise.
@@ -136,7 +154,8 @@ public final class BinaryTreeMethods {
         assert x != null : "Violation of: x is not null";
         boolean isInTree = false;
 
-        if ((t.size() == 1 && t.root().equals(x)) || (t.root().equals(x))) {
+        if (t.size() > 1 && t.root().equals(x)
+                || t.size() == 1 && t.root().equals(x)) {
             isInTree = true;
         }
 
@@ -144,10 +163,7 @@ public final class BinaryTreeMethods {
             BinaryTree<T> left = t.newInstance();
             BinaryTree<T> right = t.newInstance();
             T root = t.disassemble(left, right);
-            isInTree = isInTree(left, x);
-            if (isInTree == false) {
-                isInTree = isInTree(right, x);
-            }
+            isInTree = isInTree(left, x) || isInTree(right, x);
             t.assemble(root, left, right);
 
         }
