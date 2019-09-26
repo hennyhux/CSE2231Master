@@ -7,7 +7,7 @@ import components.set.Set;
 /**
  * JUnit test fixture for {@code Set<String>}'s constructor and kernel methods.
  *
- * @author Put your name here
+ * @author Nathan Weltle and Henry Zhang
  *
  */
 public abstract class SetTest {
@@ -73,443 +73,220 @@ public abstract class SetTest {
     // TODO - add test cases for constructor, add, remove, removeAny, contains, and size
 
     @Test
-    public final void testDefaultConstructor() {
+    public final void testNoArguementConstructor() {
         /*
          * Set up variables and call method under test
          */
-        Set<String> s = this.constructorTest();
-        Set<String> sExpected = this.constructorRef();
+        Set<String> set = this.constructorTest();
+        Set<String> setExpected = this.constructorRef();
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
+        assertEquals(setExpected, set);
+
     }
 
-    /*
-     * Test cases for kernel methods
-     */
-
     @Test
-    public final void testAddToEmpty() {
+    public final void testStringArguementConstructor() {
         /*
-         * Set up variables
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest();
-        Set<String> sExpected = this.createFromArgsRef("blood");
-        /*
-         * Call method under Test
-         */
-        s.add("blood");
+        Set<String> set = this.createFromArgsTest("A", "B", "C", "D");
+        Set<String> setExpected = this.createFromArgsRef("A", "B", "C", "D");
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testAddToNonEmpty1() {
+    public final void testStringIntegerArguementConstructor() {
         /*
-         * Set up variables
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("Hope", "Floats");
-        Set<String> sExpected = this.createFromArgsRef("Hope", "Floats",
-                "Movie");
-        /*
-         * Call method under Test
-         */
-        s.add("Movie");
+        Set<String> set = this.createFromArgsTest("1", "3", "5", "7");
+        Set<String> setExpected = this.createFromArgsRef("1", "3", "5", "7");
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testAddToNonEmpty2() {
+    public final void testStringWordsArguementConstructor() {
         /*
-         * Set up variables. All right subtrees
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("Apple", "Banana", "Carrot",
-                "Dairy", "Eggs");
-        Set<String> sExpected = this.createFromArgsRef("Apple", "Banana",
-                "Carrot", "Dairy", "Eggs", "Flour");
-        /*
-         * Call method under Test
-         */
-        s.add("Flour");
+        Set<String> set = this.createFromArgsTest("fizzbuzz", "foobar", "jack");
+        Set<String> setExpected = this.createFromArgsRef("fizzbuzz", "foobar",
+                "jack");
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testAddToNonEmpty3() {
+    public final void testStringLongWordsArguementConstructor() {
         /*
-         * Set up variables. All left subtrees
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("Zulu", "Yankee", "Whiskey");
-        Set<String> sExpected = this.createFromArgsRef("Zulu", "Yankee",
-                "Whiskey", "X-Ray");
-        /*
-         * Call method under Test
-         */
-        s.add("X-Ray");
+        Set<String> set = this.createFromArgsTest(
+                "floccinaucinihilipilification", "antidisestablishmentarianism",
+                "Pseudopseudohypoparathyroidism");
+        Set<String> setExpected = this.createFromArgsRef(
+                "floccinaucinihilipilification", "antidisestablishmentarianism",
+                "Pseudopseudohypoparathyroidism");
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testAddToNonEmpty4() {
+    public final void testAddEmpty() {
         /*
-         * Set up variables. Both left and right subtrees
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("jacket", "coat", "sweater",
-                "boots", "dress", "pants", "tshirt");
-        Set<String> sExpected = this.createFromArgsRef("jacket", "coat",
-                "sweater", "boots", "dress", "pants", "tshirt", "socks");
-        /*
-         * Call method under Test
-         */
-        s.add("socks");
+        Set<String> set = this.createFromArgsTest();
+        Set<String> setExpected = this.createFromArgsRef("Brave New World");
+
+        set.add("Brave New World");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testRemoveToEmpty() {
+    public final void testAddNonEmpty() {
         /*
-         * Set up variables
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("coal");
-        Set<String> sExpected = this.createFromArgsRef();
-        String rExpected = "coal";
-        /*
-         * Call method under Test
-         */
-        String r = s.remove("coal");
+        Set<String> set = this.createFromArgsTest("Brave New World");
+        Set<String> setExpected = this.createFromArgsRef("Brave New World",
+                "A world but a stage");
+
+        set.add("A world but a stage");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
+        assertEquals(setExpected, set);
     }
 
     @Test
-    public final void testRemoveToNonEmpty1() {
+    public final void testAddIntegerNonEmpty() {
         /*
-         * Set up variables. A tree with both left and right subtrees.
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("but", "red", "bleed", "not",
-                "green");
-        Set<String> sExpected = this.createFromArgsRef("but", "red", "bleed",
-                "not");
-        String rExpected = "green";
-        /*
-         * Call method under Test. Removing from end of tree
-         */
-        String r = s.remove("green");
+        Set<String> set = this.createFromArgsTest("4", "8", "15", "16", "23",
+                "42");
+        Set<String> setExpected = this.createFromArgsRef("4", "8", "15", "16",
+                "23", "42", "858473839487389292");
+
+        set.add("858473839487389292");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testRemoveToNonEmpty2() {
+    public final void testRemoveEmpty() {
         /*
-         * Set up variables. A tree with both left and right subtrees.
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("Mark", "Matt", "Brett",
-                "Aaron", "Craig");
-        Set<String> sExpected = this.createFromArgsRef("Mark", "Matt", "Aaron",
-                "Craig");
-        String rExpected = "Brett";
-        /*
-         * Call method under Test. Removing from middle of tree.
-         */
-        String r = s.remove("Brett");
+        Set<String> set = this.createFromArgsTest("Hearts of Darkness");
+        Set<String> setExpected = this.createFromArgsRef();
+
+        set.remove("Hearts of Darkness");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testRemoveToNonEmpty3() {
+    public final void testRemoveNonEmpty() {
         /*
-         * Set up variables. A tree with only left subtree
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("scissors", "rock", "paper");
-        Set<String> sExpected = this.createFromArgsRef("scissors", "rock");
-        String rExpected = "paper";
-        /*
-         * Call method under Test. Removing from end of tree.
-         */
-        String r = s.remove("paper");
+        Set<String> set = this.createFromArgsTest("Brave New World",
+                "Hearts of Darkness");
+        Set<String> setExpected = this.createFromArgsRef("Brave New World");
+
+        set.remove("Hearts of Darkness");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
+        assertEquals(setExpected, set);
+
     }
 
     @Test
-    public final void testRemoveToNonEmpty4() {
+    public final void testContainsEmptyFalse() {
         /*
-         * Set up variables. A tree with only right subtree
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("plot", "precise", "pronto");
-        Set<String> sExpected = this.createFromArgsRef("precise", "pronto");
-        String rExpected = "plot";
-        /*
-         * Call method under Test. Removing from beginning of tree.
-         */
-        String r = s.remove("plot");
+        Set<String> set = this.createFromArgsTest();
+        Set<String> setExpected = this.createFromArgsRef();
+
+        boolean contains = set.contains("LiL UZI VERT");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
+        assertEquals(false, contains);
+        assertEquals(setExpected, set);
     }
 
     @Test
-    public final void testRemoveToNonEmpty5() {
+    public final void testContainsNonEmptyFalse() {
         /*
-         * Set up variables. A tree with only right subtree
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("merry", "great", "umbrella",
-                "eager", "funny", "tuscan", "variety", "yellow");
-        Set<String> sExpected = this.createFromArgsRef("merry", "great",
-                "eager", "funny", "tuscan", "variety", "yellow");
-        String rExpected = "umbrella";
-        /*
-         * Call method under Test. Removing from end of tree.
-         */
-        String r = s.remove("umbrella");
+        Set<String> set = this.createFromArgsTest("JAGEX IS POWERLESS AGAINST",
+                "Chick-Fil-A", "Bethesda");
+        Set<String> setExpected = this.createFromArgsRef(
+                "JAGEX IS POWERLESS AGAINST", "Chick-Fil-A", "Bethesda");
+
+        boolean contains = set.contains("Yah");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
+        assertEquals(false, contains);
+        assertEquals(setExpected, set);
     }
 
     @Test
-    public final void testRemoveToNonEmpty6() {
+    public final void testContainsNonEmptyTrue() {
         /*
-         * Set up variables. A tree with only left subtree
+         * Set up variables and call method under test
          */
-        Set<String> s = this.createFromArgsTest("thanks", "success", "romeo",
-                "quit", "pigmant", "out", "note");
-        Set<String> sExpected = this.createFromArgsRef("success", "romeo",
-                "quit", "pigmant", "out", "note");
-        String rExpected = "thanks";
-        /*
-         * Call method under Test. Removing from beginning of tree.
-         */
-        String r = s.remove("thanks");
+        Set<String> set = this.createFromArgsTest("MODS", "STEAM SUMMER SALE");
+        Set<String> setExpected = this.createFromArgsRef("MODS",
+                "STEAM SUMMER SALE");
+
+        boolean contains = set.contains("MODS");
+
         /*
          * Assert that values of variables match expectations
          */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
-    }
-
-    @Test
-    public final void testRemoveAnyToEmpty() {
-        /*
-         * Set up variables
-         */
-        Set<String> s = this.createFromArgsTest("coal");
-        Set<String> sExpected = this.createFromArgsRef();
-        String rExpected = "coal";
-        /*
-         * Call method under Test
-         */
-        String r = s.removeAny();
-        /*
-         * Assert that values of variables match expectations
-         */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
-    }
-
-    @Test
-    public final void testRemoveAnyToNonEmpty1() {
-        /*
-         * Set up variables. Both left and right subtrees.
-         */
-        Set<String> s = this.createFromArgsTest("I", "bleed", "scarlet", "and",
-                "grey");
-        Set<String> sExpected = this.createFromArgsRef("I", "bleed", "scarlet",
-                "and", "grey");
-        /*
-         * Call method under Test
-         */
-        String r = s.removeAny();
-        String rExpected = sExpected.remove(r);
-        /*
-         * Assert that values of variables match expectations
-         */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
-    }
-
-    @Test
-    public final void testRemoveAnyToNonEmpty2() {
-        /*
-         * Set up variables. Both left and right subtrees.
-         */
-        Set<String> s = this.createFromArgsTest("art", "any", "bath", "acting",
-                "all", "call");
-        Set<String> sExpected = this.createFromArgsRef("art", "any", "bath",
-                "acting", "all", "call");
-        /*
-         * Call method under Test
-         */
-        String r = s.removeAny();
-        String rExpected = sExpected.remove(r);
-        /*
-         * Assert that values of variables match expectations
-         */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
-    }
-
-    @Test
-    public final void testRemoveAnyToNonEmpty3() {
-        /*
-         * Set up variables. A Tree with all right subtrees
-         */
-        Set<String> s = this.createFromArgsTest("hotel", "jack", "money",
-                "parking", "stop", "victory");
-        Set<String> sExpected = this.createFromArgsRef("hotel", "jack", "money",
-                "parking", "stop", "victory");
-        /*
-         * Call method under Test
-         */
-        String r = s.removeAny();
-        String rExpected = sExpected.remove(r);
-        /*
-         * Assert that values of variables match expectations
-         */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
-    }
-
-    @Test
-    public final void testRemoveAnyToNonEmpty4() {
-        /*
-         * Set up variables. A tree with all left subtrees
-         */
-        Set<String> s = this.createFromArgsTest("zoo", "xylophone", "tango",
-                "question", "lollipop", "frozen", "baby");
-        Set<String> sExpected = this.createFromArgsRef("zoo", "xylophone",
-                "tango", "question", "lollipop", "frozen", "baby");
-        /*
-         * Call method under Test
-         */
-        String r = s.removeAny();
-        String rExpected = sExpected.remove(r);
-        /*
-         * Assert that values of variables match expectations
-         */
-        assertEquals(sExpected, s);
-        assertEquals(rExpected, r);
-    }
-
-    @Test
-    public final void testContainsEmptySet() {
-        /*
-         * Set up variables
-         */
-        Set<String> s = this.createFromArgsTest();
-        Set<String> sExpected = this.createFromArgsRef();
-        /*
-         * Call method and Assert that values of variables match expectations
-         */
-        assertEquals(false, s.contains("great"));
-        assertEquals(sExpected, s);
-    }
-
-    @Test
-    public final void testContainsTrue() {
-        /*
-         * Set up variables
-         */
-        Set<String> s = this.createFromArgsTest("reach", "for", "the", "stars");
-        Set<String> sExpected = this.createFromArgsRef("reach", "the", "stars");
-        /*
-         * Call method and Assert that values of variables match expectations
-         */
-        assertEquals(true, s.contains("stars"));
-        assertEquals(sExpected, s);
-    }
-
-    @Test
-    public final void testContainsFalse() {
-        /*
-         * Set up variables
-         */
-        Set<String> s = this.createFromArgsTest("The", "Ohio", "State",
-                "University");
-        Set<String> sExpected = this.createFromArgsRef("The", "Ohio", "State",
-                "University");
-        /*
-         * Call method and Assert that values of variables match expectations
-         */
-        assertEquals(false, s.contains("*ichigan"));
-        assertEquals(sExpected, s);
-    }
-
-    @Test
-    public final void testSizeEmpty() {
-        /*
-         * Set up variables
-         */
-        Set<String> s = this.createFromArgsTest();
-        Set<String> sExpected = this.createFromArgsRef();
-        /*
-         * Call method and Assert that values of variables match expectations
-         */
-        assertEquals(0, s.size());
-        assertEquals(sExpected, s);
-    }
-
-    @Test
-    public final void testSize1() {
-        /*
-         * Set up variables. Tree size one.
-         */
-        Set<String> s = this.createFromArgsTest("Buckeyes");
-        Set<String> sExpected = this.createFromArgsRef("Buckeyes");
-        /*
-         * Call method and Assert that values of variables match expectations
-         */
-        assertEquals(1, s.size());
-        assertEquals(sExpected, s);
-    }
-
-    @Test
-    public final void testSize2() {
-        /*
-         * Set up variables. Tree size multiple.
-         */
-        Set<String> s = this.createFromArgsTest("The", "Ohio", "State",
-                "University");
-        Set<String> sExpected = this.createFromArgsRef("The", "Ohio", "State",
-                "University");
-        /*
-         * Call method and Assert that values of variables match expectations
-         */
-        assertEquals(4, s.size());
-        assertEquals(sExpected, s);
+        assertEquals(true, contains);
+        assertEquals(setExpected, set);
     }
 
 }
