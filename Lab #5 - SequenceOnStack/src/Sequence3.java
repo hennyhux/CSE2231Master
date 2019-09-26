@@ -60,15 +60,26 @@ public class Sequence3<T> extends SequenceSecondary<T> {
         assert newLeftLength <= leftStack.length() + rightStack.length() : ""
                 + "Violation of: newLeftLength <= |leftStack| + |rightStack|";
 
-        leftStack.flip();
-        while (leftStack.length() < newLeftLength) {
-            T entry = leftStack.pop();
-            rightStack.push(entry);
+//        while (leftStack.length() < newLeftLength) {
+//            rightStack.flip();
+//            T entry = rightStack.pop();
+//            leftStack.push(entry);
+//            rightStack.flip();
+//        }
+//
+//        while (leftStack.length() > newLeftLength) {
+//            T entry = leftStack.pop();
+//            rightStack.push(entry);
+//        }
+
+        if (newLeftLength - leftStack.length() > 0) {
+            leftStack.push(rightStack.pop());
+            setLengthOfLeftStack(leftStack, rightStack, newLeftLength);
         }
 
-        while (leftStack.length() > newLeftLength) {
-            T entry = rightStack.pop();
-            leftStack.push(entry);
+        if (newLeftLength - leftStack.length() < 0) {
+            rightStack.push(leftStack.pop());
+            setLengthOfLeftStack(leftStack, rightStack, newLeftLength);
         }
 
     }
@@ -149,10 +160,8 @@ public class Sequence3<T> extends SequenceSecondary<T> {
         assert 0 <= pos : "Violation of: 0 <= pos";
         assert pos < this.length() : "Violation of: pos < |this|";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return null;
+        setLengthOfLeftStack(this.left, this.right, pos + 1);
+        return this.left.pop();
     }
 
     @Override
@@ -165,6 +174,15 @@ public class Sequence3<T> extends SequenceSecondary<T> {
     public final Iterator<T> iterator() {
         setLengthOfLeftStack(this.left, this.right, 0);
         return this.right.iterator();
+    }
+
+    @Override
+    public final void flip() {
+        Stack<T> tmpLeft = this.left.newInstance();
+        tmpLeft.transferFrom(this.left);
+        this.left.transferFrom(this.right);
+        this.right.transferFrom(tmpLeft);
+
     }
 
 }

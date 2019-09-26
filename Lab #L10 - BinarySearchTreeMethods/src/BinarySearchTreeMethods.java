@@ -74,7 +74,8 @@ public final class BinarySearchTreeMethods {
             BinaryTree<T> left = t.newInstance();
             BinaryTree<T> right = t.newInstance();
             T root = t.disassemble(left, right);
-            isInTree = isInTree(left, x) || isInTree(right, x);
+            isInTree = root.equals(x) || isInTree(left, x)
+                    || isInTree(right, x);
             t.assemble(root, left, right);
 
         }
@@ -99,29 +100,64 @@ public final class BinarySearchTreeMethods {
      */
     public static <T> T removeSmallest(BinaryTree<T> t) {
 
-        // TODO - fill in body
+        T smallest = null;
+        BinaryTree<T> left = t.newInstance();
+        BinaryTree<T> right = t.newInstance();
 
-        // This line added just to make the component compilable.
-        return null;
+        if (t.size() == 1) {
+            smallest = t.disassemble(left, right);
+        }
+
+        else if (t.size() > 1) {
+            T root = t.disassemble(left, right);
+            smallest = removeSmallest(left);
+            t.assemble(root, left, right);
+        }
+
+        return smallest;
     }
 
     /**
-     * Inserts {@code x} in {@code t}.
+     * Finds label {@code x} in {@code t}, removes it from {@code t}, and
+     * returns it.
      *
      * @param <T>
      *            type of {@code BinaryTree} labels
      * @param t
-     *            the {@code BinaryTree} to be searched
+     *            the {@code BinaryTree} from which to remove label {@code x}
      * @param x
-     *            the label to be inserted
-     * @aliases reference {@code x}
+     *            the label to be removed
+     * @return the removed label
      * @updates t
-     * @requires IS_BST(t) and x is not in labels(t)
-     * @ensures IS_BST(t) and labels(t) = labels(#t) union {x}
+     * @requires IS_BST(t) and x is in labels(t)
+     * @ensures <pre>
+     * IS_BST(t)  and  removeFromTree = x  and
+     *  labels(t) = labels(#t) \ {x}
+     * </pre>
      */
-    public static <T extends Comparable<T>> void insertInTree(BinaryTree<T> t,
+    private static <T extends Comparable<T>> T removeFromTree(BinaryTree<T> t,
             T x) {
+        assert t != null : "Violation of: t is not null";
+        assert x != null : "Violation of: x is not null";
 
+        BinaryTree<T> left = t.newInstance();
+        BinaryTree<T> right = t.newInstance();
+        T root = null;
+
+        if (t.size() == 1 && t.root().equals(x)) {
+            root = t.disassemble(left, right);
+
+        }
+
+        if (t.size() > 1 && !t.root().equals(x)) {
+            T entry = t.disassemble(left, right);
+            root = removeFromTree(left, x);
+            root = removeFromTree(right, x);
+            t.assemble(entry, left, right);
+
+        }
+
+        return root;
     }
 
     /**
@@ -172,12 +208,12 @@ public final class BinarySearchTreeMethods {
         /*
          * Output BST labels in order.
          */
-//        out.println();
-//        out.println("Labels in BST in order:");
-//        while (t.size() > 0) {
-//            label = removeSmallest(t);
-//            out.println("  " + label);
-//        }
+        out.println();
+        out.println("Labels in BST in order:");
+        while (t.size() > 0) {
+            label = removeSmallest(t);
+            out.println("  " + label);
+        }
 
         in.close();
         out.close();

@@ -56,27 +56,12 @@ public class Map2<K, V> extends MapSecondary<K, V> {
         assert q != null : "Violation of: q is not null";
         assert key != null : "Violation of: key is not null";
 
-        int length = q.length();
-        int cycle = 0;
-        Queue<Pair<K, V>> qCopy = q.newInstance();
-        Queue<Pair<K, V>> qFront = q.newInstance();
-        q.flip();
+        Queue<Pair<K, V>> newQueue = q.newInstance();
 
-        while (cycle < length) {
-            Pair<K, V> entry = q.dequeue();
-
-            if (entry.key().equals(key)) {
-                qFront.enqueue(entry);
-            }
-
-            else {
-                qCopy.enqueue(entry);
-                cycle++;
-            }
+        while (q.length() != 0 && !q.front().key().equals(key)) {
+            newQueue.enqueue(q.dequeue());
         }
-
-        qFront.append(qCopy);
-        q.transferFrom(qFront);
+        q.append(newQueue);
 
     }
 
@@ -144,6 +129,9 @@ public class Map2<K, V> extends MapSecondary<K, V> {
         assert value != null : "Violation of: value is not null";
         assert !this.hasKey(key) : "Violation of: key is not in DOMAIN(this)";
 
+        Pair<K, V> newPair = new SimplePair<K, V>(key, value);
+        this.pairsQueue.enqueue(newPair);
+
     }
 
     @Override
@@ -151,17 +139,15 @@ public class Map2<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return null;
+        moveToFront(this.pairsQueue, key);
+        return this.pairsQueue.dequeue();
     }
 
     @Override
     public final Pair<K, V> removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
-        return null;
+        return this.pairsQueue.dequeue();
     }
 
     @Override
@@ -169,17 +155,16 @@ public class Map2<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
-        return null;
+        moveToFront(this.pairsQueue, key);
+        return this.pairsQueue.front().value();
     }
 
     @Override
     public final boolean hasKey(K key) {
         assert key != null : "Violation of: key is not null";
 
-        return false;
+        moveToFront(this.pairsQueue, key);
+        return this.pairsQueue.front().key().equals(key);
     }
 
     @Override

@@ -104,6 +104,115 @@ public final class BinarySearchTreeMethodsTest {
         assertEquals(t2, t1);
     }
 
+    @Test
+    public void testInTreeNotHeight3() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("b", "a", "c", "d");
+        BinaryTree<String> t2 = createBSTFromArgs("b", "a", "c", "d");
+        /*
+         * Call method under test
+         */
+        boolean inTree = BinarySearchTreeMethods.isInTree(t1, "h");
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(false, inTree);
+        assertEquals(t2, t1);
+    }
+
+    @Test
+    public void testremoveSmallestHeight1() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("a");
+        BinaryTree<String> t2 = createBSTFromArgs();
+        /*
+         * Call method under test
+         */
+        String inTree = BinarySearchTreeMethods.removeSmallest(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals("a", inTree);
+        assertEquals(t2, t1);
+    }
+
+    @Test
+    public void testremoveSmallestHeight2() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("d", "b", "e");
+        BinaryTree<String> t2 = createBSTFromArgs("d", "e");
+        /*
+         * Call method under test
+         */
+        String inTree = BinarySearchTreeMethods.removeSmallest(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals("b", inTree);
+        assertEquals(t2, t1);
+    }
+
+    @Test
+    public void testremoveSmallestHeight3() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("f", "c", "r", "b", "e");
+        BinaryTree<String> t2 = createBSTFromArgs("f", "c", "r", "e");
+        /*
+         * Call method under test
+         */
+        String inTree = BinarySearchTreeMethods.removeSmallest(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals("b", inTree);
+        assertEquals(t2, t1);
+    }
+
+    @Test
+    public void testremoveSmallestHeight4() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("f", "c", "r", "b", "e", "a");
+        BinaryTree<String> t2 = createBSTFromArgs("f", "c", "r", "b", "e");
+        /*
+         * Call method under test
+         */
+        String inTree = BinarySearchTreeMethods.removeSmallest(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals("a", inTree);
+        assertEquals(t2, t1);
+    }
+
+    @Test
+    public void testremoveSmallestSpeicalCase() {
+        /*
+         * Set up variables
+         */
+        BinaryTree<String> t1 = createBSTFromArgs("reach", "for", "the",
+                "stars");
+        BinaryTree<String> t2 = createBSTFromArgs("reach", "the", "stars");
+        /*
+         * Call method under test
+         */
+        String inTree = BinarySearchTreeMethods.removeSmallest(t1);
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals("for", inTree);
+        assertEquals(t2, t1);
+    }
+
     /*
      * EXAM QUESTION TEST CASES ------------------------------------------------
      */

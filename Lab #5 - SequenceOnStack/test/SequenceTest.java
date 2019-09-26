@@ -69,24 +69,6 @@ public abstract class SequenceTest {
 
     // TODO - add test cases for constructor, add, remove, and length
 
-//    @Test
-//    public void testsetLengthOfLeftStack() {
-//        /*
-//         * Set up variables and call method under test
-//         */
-//        Sequence<String> left = this.createFromArgsTest("1", "2" ,"3", "4", "5");
-//        Sequence<String> leftExpected = this.createFromArgsRef("4", "3" , "2" , "1");
-//        Sequence<String> right = this.createFromArgsTest("6", "7", "8");
-//        Sequence<String> rightExpected = this.createFromArgsRef("5", "6", "7", "8");
-//
-//
-//        /*
-//         * Assert that values of variables match expectations
-//         */
-//        assertEquals(left, );
-//    }
-//
-
     @Test
     public void testLength() {
         /*

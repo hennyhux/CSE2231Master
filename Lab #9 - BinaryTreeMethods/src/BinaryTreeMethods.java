@@ -87,10 +87,11 @@ public final class BinaryTreeMethods {
             BinaryTree<T> right = t.newInstance();
             T root = t.disassemble(left, right);
             treeSize += size(left) + size(right);
+            treeSize++;
             t.assemble(root, left, right);
         }
 
-        return treeSize + 1; //including the root
+        return treeSize; //including the root
     }
 
     /**
@@ -163,7 +164,8 @@ public final class BinaryTreeMethods {
             BinaryTree<T> left = t.newInstance();
             BinaryTree<T> right = t.newInstance();
             T root = t.disassemble(left, right);
-            isInTree = isInTree(left, x) || isInTree(right, x);
+            isInTree = root.equals(x) || isInTree(left, x)
+                    || isInTree(right, x);
             t.assemble(root, left, right);
 
         }

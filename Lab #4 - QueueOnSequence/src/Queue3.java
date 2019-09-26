@@ -94,8 +94,7 @@ public class Queue3<T> extends QueueSecondary<T> {
     public final T dequeue() {
         assert this.length() > 0 : "Violation of: this /= <>";
 
-        T entry = this.entries.remove(0);
-        return entry;
+        return this.entries.remove(0);
     }
 
     @Override

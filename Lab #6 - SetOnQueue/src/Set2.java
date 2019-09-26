@@ -47,27 +47,13 @@ public class Set2<T> extends SetSecondary<T> {
     private static <T> void moveToFront(Queue<T> q, T x) {
         assert q != null : "Violation of: q is not null";
 
-        int length = q.length();
-        int cycle = 0;
         Queue<T> qCopy = q.newInstance();
-        Queue<T> qFront = q.newInstance();
-        q.flip();
 
-        while (cycle < length) {
-            T entry = q.dequeue();
-
-            if (entry.equals(x)) {
-                qFront.enqueue(entry);
-            }
-
-            else {
-                qCopy.enqueue(entry);
-                cycle++;
-            }
+        while (q.length() != 0 && !q.front().equals(x)) {
+            qCopy.enqueue(q.dequeue());
         }
 
-        qFront.append(qCopy);
-        q.transferFrom(qFront);
+        q.append(qCopy);
 
     }
 
