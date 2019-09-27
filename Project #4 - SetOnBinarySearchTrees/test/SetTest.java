@@ -236,6 +236,24 @@ public abstract class SetTest {
     }
 
     @Test
+    public final void testRemoveAny() {
+        /*
+         * Set up variables and call method under test
+         */
+        Set<String> set = this.createFromArgsTest("5", "1", "3");
+        Set<String> setExpected = this.createFromArgsRef("5", "3");
+
+        String smallest = set.removeAny();
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(setExpected, set);
+        assertEquals("1", smallest);
+
+    }
+
+    @Test
     public final void testContainsEmptyFalse() {
         /*
          * Set up variables and call method under test
@@ -287,6 +305,58 @@ public abstract class SetTest {
          */
         assertEquals(true, contains);
         assertEquals(setExpected, set);
+    }
+
+    @Test
+    public final void testSizeEmpty() {
+        /*
+         * Set up variables and call method under test
+         */
+        Set<String> set = this.createFromArgsTest();
+        Set<String> setExpected = this.createFromArgsRef();
+
+        int size = set.size();
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(setExpected, set);
+        assertEquals(0, size);
+    }
+
+    @Test
+    public final void testSizeNonEmpty() {
+        /*
+         * Set up variables and call method under test
+         */
+        Set<String> set = this.createFromArgsTest("Only", "Human");
+        Set<String> setExpected = this.createFromArgsRef("Only", "Human");
+
+        int size = set.size();
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(setExpected, set);
+        assertEquals(2, size);
+    }
+
+    @Test
+    public final void testSizeNonEmptyIntegerString() {
+        /*
+         * Set up variables and call method under test
+         */
+        Set<String> set = this.createFromArgsTest("14", "56", "69", "555");
+        Set<String> setExpected = this.createFromArgsRef("14", "56", "69",
+                "555");
+
+        int size = set.size();
+
+        /*
+         * Assert that values of variables match expectations
+         */
+        assertEquals(setExpected, set);
+        assertEquals(4, size);
     }
 
 }
