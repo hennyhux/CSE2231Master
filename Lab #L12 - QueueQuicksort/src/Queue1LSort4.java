@@ -70,17 +70,18 @@ public final class Queue1LSort4<T> extends Queue1L<T> {
         assert order != null : "Violation of: order is not null";
 
         while (q.length() != 0) {
+
             T entry = q.dequeue();
 
-            if (order.compare(entry, partitioner) > 1) {
+            if (order.compare(entry, partitioner) < 0
+                    || order.compare(entry, partitioner) == 0) {
+                front.enqueue(entry);
+            }
 
+            if (order.compare(entry, partitioner) > 0) {
                 back.enqueue(entry);
             }
 
-            else {
-
-                front.enqueue(entry);
-            }
         }
 
     }
@@ -88,6 +89,7 @@ public final class Queue1LSort4<T> extends Queue1L<T> {
     @Override
     public void sort(Comparator<T> order) {
         assert order != null : "Violation of: order is not null";
+
         if (this.length() > 1) {
 
             /*

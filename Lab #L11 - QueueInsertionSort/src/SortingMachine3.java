@@ -97,7 +97,15 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
         assert q != null : "Violation of: q is not null";
         assert order != null : "Violation of: order is not null";
 
-        // TODO #1 - fill in body
+        Queue<T> qcopy = q.newInstance();
+
+        while (q.length() != 0 && order.compare(x, q.front()) > 0) {
+            qcopy.enqueue(q.dequeue());
+        }
+
+        qcopy.enqueue(x);
+        qcopy.append(q);
+        q.transferFrom(qcopy);
 
     }
 
@@ -166,6 +174,8 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
 
         // TODO #2 - insert x into this.entries with insertInOrder
 
+        insertInOrder(this.entries, x, this.machineOrder);
+
     }
 
     @Override
@@ -173,6 +183,8 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
         assert this.isInInsertionMode() : "Violation of: this.insertion_mode";
 
         // TODO #3 - change this.insertionMode to false
+
+        this.insertionMode = false;
 
     }
 
@@ -184,8 +196,7 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
 
         // TODO #4 - remove item from front of this.entries and return it
 
-        // This line added just to make the component compilable.
-        return null;
+        return this.entries.dequeue();
     }
 
     @Override
@@ -193,8 +204,7 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
 
         // TODO #5 - return this.insertionMode
 
-        // This line added just to make the component compilable.
-        return false;
+        return this.insertionMode;
     }
 
     @Override
@@ -202,8 +212,7 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
 
         // TODO #6 - return this.machineOrder
 
-        // This line added just to make the component compilable.
-        return null;
+        return this.machineOrder;
     }
 
     @Override
@@ -211,8 +220,7 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
 
         // TODO #7 - return the length of this.entries
 
-        // This line added just to make the component compilable.
-        return 0;
+        return this.entries.length();
     }
 
     @Override
