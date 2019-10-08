@@ -1,10 +1,10 @@
 import java.util.Comparator;
 
-import components.queue.Queue;
 import components.simplereader.SimpleReader;
 import components.simplereader.SimpleReader1L;
 import components.simplewriter.SimpleWriter;
 import components.simplewriter.SimpleWriter1L;
+import components.sortingmachine.SortingMachine;
 
 /**
  * Program to sort lines from an input file in lexicographic order by using
@@ -51,25 +51,26 @@ public final class QueueSortMain {
         /*
          * Get lines from input
          */
-        Queue<String> q = new Queue1LSort4<>();
+        Comparator<String> cs = new StringLT();
+        SortingMachine<String> si = new SortingMachine4<>(cs);
+
         while (!file.atEOS()) {
             String str = file.nextLine();
-            q.enqueue(str);
+            si.add(str);
         }
         file.close();
+        si.changeToExtractionMode();
 
         /*
          * Sort lines into non-decreasing lexicographic order
          */
-        Comparator<String> cs = new StringLT();
-        q.sort(cs);
 
         /*
          * Output lines in sorted order
          */
         out.println();
-        while (q.length() > 0) {
-            String str = q.dequeue();
+        while (si.size() > 0) {
+            String str = si.removeFirst();
             out.println(str);
         }
 

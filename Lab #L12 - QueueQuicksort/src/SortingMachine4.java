@@ -86,15 +86,28 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
      *  (not [relation computed by order.compare method](x, partitioner))
      * </pre>
      */
-    private static <T> void partition(Queue<T> q, T partitioner,
-            Queue<T> front, Queue<T> back, Comparator<T> order) {
+    private static <T> void partition(Queue<T> q, T partitioner, Queue<T> front,
+            Queue<T> back, Comparator<T> order) {
         assert q != null : "Violation of: q is not null";
         assert partitioner != null : "Violation of: partitioner is not null";
         assert front != null : "Violation of: front is not null";
         assert back != null : "Violation of: back is not null";
         assert order != null : "Violation of: order is not null";
 
-        // TODO #1 - fill in body
+        while (q.length() != 0) {
+
+            T entry = q.dequeue();
+
+            if (order.compare(entry, partitioner) < 0
+                    || order.compare(entry, partitioner) == 0) {
+                front.enqueue(entry);
+            }
+
+            if (order.compare(entry, partitioner) > 0) {
+                back.enqueue(entry);
+            }
+
+        }
 
     }
 
@@ -115,7 +128,37 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
     private static <T> void sort(Queue<T> q, Comparator<T> order) {
         assert order != null : "Violation of: order is not null";
 
-        // TODO #2 - fill in body
+        if (q.length() > 1) {
+
+            /*
+             * Dequeue the partitioning entry from this
+             */
+            T entry = q.dequeue();
+
+            /*
+             * Partition this into two queues as discussed above (you will need
+             * to declare and initialize two new queues)
+             */
+            Queue<T> qFront = q.newInstance();
+            Queue<T> qBack = q.newInstance();
+            /*
+             * Recursively sort the two queues
+             */
+
+            partition(q, entry, qFront, qBack, order);
+            qFront.sort(order);
+            qBack.sort(order);
+
+            /*
+             * Reconstruct this by combining the two sorted queues and the
+             * partitioning entry in the proper order
+             */
+
+            q.append(qFront);
+            q.enqueue(entry);
+            q.append(qBack);
+
+        }
 
     }
 
@@ -156,8 +199,8 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
             Constructor<?> c = this.getClass().getConstructor(Comparator.class);
             return (SortingMachine<T>) c.newInstance(this.machineOrder);
         } catch (ReflectiveOperationException e) {
-            throw new AssertionError("Cannot construct object of type "
-                    + this.getClass());
+            throw new AssertionError(
+                    "Cannot construct object of type " + this.getClass());
         }
     }
 
@@ -171,7 +214,7 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
         assert source != null : "Violation of: source is not null";
         assert source != this : "Violation of: source is not this";
         assert source instanceof SortingMachine4<?> : ""
-        + "Violation of: source is of dynamic type SortingMachine4<?>";
+                + "Violation of: source is of dynamic type SortingMachine4<?>";
         /*
          * This cast cannot fail since the assert above would have stopped
          * execution in that case: source must be of dynamic type
@@ -196,6 +239,8 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
 
         // TODO #3 - enqueue x onto this.entries
 
+        this.entries.enqueue(x);
+
     }
 
     @Override
@@ -204,17 +249,21 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
 
         // TODO #4 - change this.insertionMode to false and sort this.entries
 
+        this.insertionMode = false;
+        sort(this.entries, this.machineOrder);
+
     }
 
     @Override
     public final T removeFirst() {
-        assert !this.isInInsertionMode() : "Violation of: not this.insertion_mode";
+        assert !this
+                .isInInsertionMode() : "Violation of: not this.insertion_mode";
         assert this.size() > 0 : "Violation of: this.contents /= {}";
 
         // TODO #5 - remove item from front of this.entries and return it
 
         // This line added just to make the component compilable.
-        return null;
+        return this.entries.dequeue();
     }
 
     @Override
@@ -223,7 +272,7 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
         // TODO #6 - return this.insertionMode
 
         // This line added just to make the component compilable.
-        return false;
+        return this.insertionMode;
     }
 
     @Override
@@ -232,7 +281,7 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
         // TODO #7 - return this.machineOrder
 
         // This line added just to make the component compilable.
-        return null;
+        return this.machineOrder;
     }
 
     @Override
@@ -241,7 +290,7 @@ public class SortingMachine4<T> extends SortingMachineSecondary<T> {
         // TODO #8 - return the length of this.entries
 
         // This line added just to make the component compilable.
-        return 0;
+        return this.entries.length();
     }
 
     @Override
