@@ -33,7 +33,11 @@ import components.simplewriter.SimpleWriter1L;
  *   index start and only through entry stop]
  * </pre>
  *
+<<<<<<< HEAD
  * @author Put your name here
+=======
+ * @author Henry Zhang
+>>>>>>> refs/remotes/master/juicewrld
  *
  */
 public final class ArraySiftDownMain {

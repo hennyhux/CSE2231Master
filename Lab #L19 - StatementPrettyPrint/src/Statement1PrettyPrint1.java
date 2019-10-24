@@ -157,7 +157,7 @@ public final class Statement1PrettyPrint1 extends Statement1 {
                 Statement.Condition condition = this.disassembleIf(subLabel);
                 printSpaces(out, offset);
                 out.println("IF " + toStringCondition(condition));
-                subLabel.prettyPrint(out, offset + indent);
+                subLabel.prettyPrint(out, offset);
 
                 for (int i = 0; i < offset; i++) {
                     out.print(" ");

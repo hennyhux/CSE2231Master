@@ -91,7 +91,7 @@ public abstract class StackTest {
     @Test
     public final void testPushNonEmpty() {
         Stack<String> s = this.createFromArgsTest("Aye");
-        Stack<String> sExpected = this.createFromArgsRef("Aye", "Hello");
+        Stack<String> sExpected = this.createFromArgsRef("Hello", "Aye");
 
         s.push("Hello");
 
@@ -117,7 +117,7 @@ public abstract class StackTest {
         String entry = s.pop();
 
         assertEquals(sExpected, s);
-        assertEquals("What", entry);
+        assertEquals("Aye", entry);
     }
 
     @Test
