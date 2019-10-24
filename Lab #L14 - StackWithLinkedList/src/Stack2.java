@@ -104,7 +104,6 @@ public class Stack2<T> extends StackSecondary<T> {
      * Creator of initial representation.
      */
     private void createNewRep() {
-
         this.top = null;
         this.length = 0;
 
@@ -185,9 +184,7 @@ public class Stack2<T> extends StackSecondary<T> {
 
         T entry = this.top.data;
         this.top = this.top.next;
-
         this.length--;
-
         assert this.conventionHolds();
         return entry;
     }

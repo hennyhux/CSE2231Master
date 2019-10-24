@@ -148,12 +148,15 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
                 + "Violation of: SUBTREE_IS_HEAP(array, 2 * top + 2, last,"
                 + " [relation computed by order.compare method])";
         /*
-         * Impractical to check last requires clause; no need to check the other
-         * requires clause, because it must be true when using the Array
+         * / Impractical to check last requires clause;/ no need to check the
+         * other requires clause, because it must be true when using the Array
          * representation for a complete binary tree.
          */
 
-        if (2 * top + 1 > last) {
+        int leftIndex = 2 * top + 1;
+        int rightIndex = 2 * top + 2;
+
+        if (2 * top + 1 > last) { // "base" case
 
             if (order.compare(array.entry(2 * top + 1), array.entry(top)) < 0) {
                 array.exchangeEntries(2 * top + 1, top);
@@ -165,7 +168,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         if (2 * top + 1 <= last) {
 
             if (order.compare(array.entry(2 * top + 1),
-                    array.entry(2 * top + 2)) <= 0) { //the left is smaller child 
+                    array.entry(2 * top + 2)) <= 0) { //the left is smaller child
 
                 if (order.compare(array.entry(2 * top + 1),
                         array.entry(top)) < 0) { //the left child is smaller than root node
@@ -175,7 +178,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
                 }
             }
 
-            if (order.compare(array.entry(2 * top + 1),
+            if (rightIndex <= last && order.compare(array.entry(2 * top + 1),
                     array.entry(2 * top + 2)) > 0) { //the right is smaller child
 
                 if (order.compare(array.entry(2 * top + 2),
@@ -230,8 +233,8 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          */
 
         if (array.length() > 1 && 2 * top + 1 < array.length()) {
-            heapify(array, 2 * top + 1, order);
-            heapify(array, top * 2 + 2, order);
+            heapify(array, 2 * top + 1, order); //left call
+            heapify(array, top * 2 + 2, order); //right call
             siftDown(array, top, array.length() - 1, order);
         }
 
@@ -261,8 +264,9 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert order != null : "Violation of: order is not null";
 
         Array<T> newHeap = new Array1L<T>(q.length());
+        int length = q.length();
 
-        for (int i = 0; q.length() != 0; i++) {
+        for (int i = 0; i < length; i++) {
             T entry = q.dequeue();
             newHeap.setEntry(i, entry);
         }
