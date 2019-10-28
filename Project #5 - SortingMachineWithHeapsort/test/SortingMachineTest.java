@@ -158,17 +158,6 @@ public abstract class SortingMachineTest {
     }
 
     @Test
-    public final void testAddOne() {
-        //Setup
-        SortingMachine<String> m = this.createFromArgsTest(ORDER, true,
-                "green");
-        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
-                "green", "blue");
-        //Test
-        m.add("blue");
-
-<<<<<<< HEAD
-    @Test
     public final void testAddNonEmptyShort() {
         /*
          * Set up variables
@@ -618,11 +607,6 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
-=======
-        //Check
-        assertEquals(mExpected, m);
-    }
-
     //Regular
 
     @Test
@@ -843,20 +827,4 @@ public abstract class SortingMachineTest {
         assertEquals(ref4, test4);
     }
 
-    /*
-     * isInInsertionMode
-     */
-
-    /*
-     * order
-     */
-
-    /*
-     * size
-     */
-
-    //Heapify with top different lengths
-
-    //Check 3 methods callable during/after insertionMode
->>>>>>> refs/remotes/master/juicewrld
 }
