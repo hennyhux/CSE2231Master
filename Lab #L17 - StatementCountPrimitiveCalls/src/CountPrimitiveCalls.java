@@ -114,6 +114,58 @@ public final class CountPrimitiveCalls {
     }
 
     /**
+     * Refactors the given {@code Statement} so that every IF_ELSE statement
+     * with a negated condition (NEXT_IS_NOT_EMPTY, NEXT_IS_NOT_ENEMY,
+     * NEXT_IS_NOT_FRIEND, NEXT_IS_NOT_WALL) is replaced by an equivalent
+     * IF_ELSE with the opposite condition and the "then" and "else" BLOCKs
+     * switched. Every other statement is left unmodified.
+     *
+     * @param s
+     *            the {@code Statement}
+     * @updates s
+     * @ensures <pre>
+     * s = [#s refactored so that IF_ELSE statements with "not"
+     *   conditions are simplified so the "not" is removed]
+     * </pre>
+     */
+    public static void simplifyIfElse(Statement s) {
+        switch (s.kind()) {
+            case BLOCK: {
+
+                // TODO - fill in case
+
+                break;
+            }
+            case IF: {
+
+                // TODO - fill in case
+
+                break;
+            }
+            case IF_ELSE: {
+
+                // TODO - fill in case
+
+                break;
+            }
+            case WHILE: {
+
+                // TODO - fill in case
+
+                break;
+            }
+            case CALL: {
+                // nothing to do here...can you explain why?
+                break;
+            }
+            default: {
+                // this will never happen...can you explain why?
+                break;
+            }
+        }
+    }
+
+    /**
      * Reports the number of calls to a given instruction, {@code instr}, in a
      * given {@code Statement}.
      *
