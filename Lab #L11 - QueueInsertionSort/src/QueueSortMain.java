@@ -10,7 +10,7 @@ import components.sortingmachine.SortingMachine;
  * Program to sort lines from an input file in lexicographic order by using
  * insertion sort on {@code Queue<String>}.
  *
- * @author FUCK Paolo Bucci THIS CODE NASTY
+ * @author Henry Zhang!
  */
 public final class QueueSortMain {
 

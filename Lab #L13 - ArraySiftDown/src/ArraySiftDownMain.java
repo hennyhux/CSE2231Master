@@ -32,13 +32,7 @@ import components.simplewriter.SimpleWriter1L;
  *   (when a is interpreted as a complete binary tree) rooted at
  *   index start and only through entry stop]
  * </pre>
- *
-<<<<<<< HEAD
- * @author Put your name here
-=======
- * @author Henry Zhang
->>>>>>> refs/remotes/master/juicewrld
- *
+ * @author Henry Tha God
  */
 public final class ArraySiftDownMain {
 
@@ -84,18 +78,30 @@ public final class ArraySiftDownMain {
          * No need to check the other requires clause, because it must be true
          * when using the Array representation for a complete binary tree.
          */
-        int left = 2 * top + 1;
-        boolean isHeap = true;
-        if (left <= last) { // there is non-empty left subtree
-            isHeap = (array.entry(top) <= array.entry(left))
-                    && isHeap(array, left, last);
-            int right = left + 1;
-            if (isHeap && (right <= last)) { // there is non-empty right subtree
-                isHeap = (array.entry(top) <= array.entry(right))
-                        && isHeap(array, right, last);
+
+        boolean heap = false;
+
+        if (top == last) { //single node
+            heap = true;
+        }
+
+        if (top != last && 2 * top + 2 > last) { // one left child node
+
+            if (array.entry(top) < array.entry(2 * top + 1)) {
+                heap = true;
             }
         }
-        return isHeap;
+
+        if (top != last && 2 * top + 2 == last) { //full root with two two children
+
+            if (array.entry(top) < array.entry(2 * top + 1)
+                    && array.entry(top) < array.entry(2 * top + 1)) {
+                heap = true;
+            }
+        }
+
+        return heap;
+
     }
 
     /**
@@ -126,7 +132,9 @@ public final class ArraySiftDownMain {
         if (m.hasKey(item)) {
             Map.Pair<K, Integer> pair = m.remove(item);
             m.add(pair.key(), pair.value() + 1);
-        } else {
+        }
+
+        else {
             m.add(item, 1);
         }
 
@@ -176,7 +184,22 @@ public final class ArraySiftDownMain {
          * when using the Array representation for a complete binary tree.
          */
 
-        // TODO - fill in body using recursive algorithm from slides
+        if (top > last) {
+            int root = array.entry(top);
+
+            if (2 * top + 2 > last) { //only one child
+                int leftChildren = array.entry(2 * top + 1);
+                if (root > array.entry(leftChildren)) {
+                    array.exchangeEntries(top, 2 * top + 1);
+                    siftDown(array, 2 * top + 1, last);
+                }
+            }
+
+            if (2 * top + 2 <= last) {
+
+            }
+
+        }
 
     }
 

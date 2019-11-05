@@ -61,27 +61,39 @@ public final class Queue1LSort3<T> extends Queue1L<T> {
         assert q != null : "Violation of: q is not null";
         assert order != null : "Violation of: order is not null";
 
-        Queue<T> qcopy = q.newInstance();
+        //In order, so smallest in front, largest in the back
 
-        while (q.length() != 0 && order.compare(x, q.front()) > 0) {
-            qcopy.enqueue(q.dequeue());
+        int qLength = q.length();
+        Queue<T> qCopy = q.newInstance();
+
+        for (int i = 0; i < qLength; i++) {
+
+            T entry = q.dequeue();
+
+            if (order.compare(entry, x) > 0) {//x bigger than removed entry
+                qCopy.enqueue(entry);
+            }
+
+            if (order.compare(entry, x) < 0 | order.compare(entry, x) == 0) { //x smaller than removed entry
+                qCopy.enqueue(x);
+                qCopy.enqueue(entry);
+            }
         }
 
-        qcopy.enqueue(x);
-        qcopy.append(q);
-        q.transferFrom(qcopy);
-
+        q.transferFrom(qCopy);
     }
 
     @Override
     public void sort(Comparator<T> order) {
         assert order != null : "Violation of: order is not null";
 
-        Queue<T> qcopy = this.newInstance();
+        Queue<T> qCopy = this.newInstance();
         while (this.length() != 0) {
-            insertInOrder(qcopy, this.dequeue(), order);
+            T entry = this.dequeue();
+            insertInOrder(qCopy, entry, order);
         }
-        this.transferFrom(qcopy);
+
+        this.transferFrom(qCopy);
 
     }
 

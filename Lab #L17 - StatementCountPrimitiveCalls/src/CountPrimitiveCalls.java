@@ -1,4 +1,6 @@
 import components.statement.Statement;
+import components.statement.StatementKernel;
+import components.statement.StatementKernel.Condition;
 
 /**
  * Utility class with method to count the number of calls to primitive
@@ -37,11 +39,12 @@ public final class CountPrimitiveCalls {
                  * nested statement in the BLOCK.
                  */
 
-                int blockLength = s.lengthOfBlock();
-                for (int i = 0; i < blockLength; i++) {
-                    Statement call = s.removeFromBlock(i);
-                    count += countOfPrimitiveCalls(call);
-                    s.addToBlock(i, call);
+                int lengthOfBlock = s.lengthOfBlock();
+
+                for (int i = 0; i < lengthOfBlock; i++) {
+                    Statement removed = s.removeFromBlock(i);
+                    count += countOfPrimitiveCalls(removed);
+                    s.addToBlock(i, removed);
                 }
 
                 break;
@@ -52,10 +55,10 @@ public final class CountPrimitiveCalls {
                  * body of the IF.
                  */
 
-                Statement subLabel = s.newInstance();
-                Statement.Condition c = s.disassembleIf(subLabel);
-                count += countOfPrimitiveCalls(subLabel);
-                s.assembleIf(c, subLabel);
+                Statement label = s.newInstance();
+                Statement.Condition c = s.disassembleIf(label);
+                count += countOfPrimitiveCalls(label);
+                s.assembleIf(c, label);
 
                 break;
             }
@@ -65,13 +68,12 @@ public final class CountPrimitiveCalls {
                  * "then" and "else" bodies of the IF_ELSE.
                  */
 
-                Statement subLabelIF = s.newInstance();
-                Statement subLabelELSE = s.newInstance();
-                Statement.Condition c = s.disassembleIfElse(subLabelIF,
-                        subLabelELSE);
-                count += countOfPrimitiveCalls(subLabelIF)
-                        + countOfPrimitiveCalls(subLabelELSE);
-                s.assembleIfElse(c, subLabelIF, subLabelELSE);
+                Statement labelIf = s.newInstance();
+                Statement labelElse = s.newInstance();
+                Statement.Condition c = s.disassembleIfElse(labelIf, labelElse);
+                count += countOfPrimitiveCalls(labelIf)
+                        + countOfPrimitiveCalls(labelElse);
+                s.assembleIfElse(c, labelIf, labelElse);
 
                 break;
             }
@@ -81,10 +83,10 @@ public final class CountPrimitiveCalls {
                  * body of the WHILE.
                  */
 
-                Statement subLabelWHILE = s.newInstance();
-                Statement.Condition c = s.disassembleWhile(subLabelWHILE);
-                count += countOfPrimitiveCalls(subLabelWHILE);
-                s.assembleWhile(c, subLabelWHILE);
+                Statement label = s.newInstance();
+                Statement.Condition c = s.disassembleWhile(label);
+                count += countOfPrimitiveCalls(label);
+                s.assembleWhile(c, label);
 
                 break;
             }
@@ -107,6 +109,7 @@ public final class CountPrimitiveCalls {
             }
             default: {
                 // this will never happen...can you explain why?
+
                 break;
             }
         }
@@ -114,11 +117,11 @@ public final class CountPrimitiveCalls {
     }
 
     /**
-     * Refactors the given {@code Statement} so that every IF_ELSE statement
-     * with a negated condition (NEXT_IS_NOT_EMPTY, NEXT_IS_NOT_ENEMY,
-     * NEXT_IS_NOT_FRIEND, NEXT_IS_NOT_WALL) is replaced by an equivalent
-     * IF_ELSE with the opposite condition and the "then" and "else" BLOCKs
-     * switched. Every other statement is left unmodified.
+     * HOMEWORK QUESTION Refactors the given {@code Statement} so that every
+     * IF_ELSE statement with a negated condition (NEXT_IS_NOT_EMPTY,
+     * NEXT_IS_NOT_ENEMY, NEXT_IS_NOT_FRIEND, NEXT_IS_NOT_WALL) is replaced by
+     * an equivalent IF_ELSE with the opposite condition and the "then" and
+     * "else" BLOCKs switched. Every other statement is left unmodified.
      *
      * @param s
      *            the {@code Statement}
@@ -132,25 +135,75 @@ public final class CountPrimitiveCalls {
         switch (s.kind()) {
             case BLOCK: {
 
-                // TODO - fill in case
+                int lengthOfBlock = s.lengthOfBlock();
+
+                for (int i = 0; i < lengthOfBlock; i++) {
+                    Statement label = s.removeFromBlock(i);
+                    simplifyIfElse(label);
+                    s.addToBlock(i, label);
+                }
 
                 break;
             }
             case IF: {
 
-                // TODO - fill in case
+                Statement label = s.newInstance();
+                Statement.Condition c = s.disassembleIf(label);
+                simplifyIfElse(label);
+                s.assembleIf(c, label);
 
                 break;
             }
             case IF_ELSE: {
 
-                // TODO - fill in case
+                Statement ifBlock = s.newInstance();
+                Statement elseBlock = s.newInstance();
+                Statement.Condition c = s.disassembleIfElse(ifBlock, elseBlock);
+
+                switch (c.name()) {
+
+                    case "NEXT_IS_NOT_EMPTY": {
+                        Statement.Condition newCondition = Condition.NEXT_IS_EMPTY;
+                        simplifyIfElse(ifBlock);
+                        simplifyIfElse(elseBlock);
+                        s.assembleIfElse(newCondition, elseBlock, ifBlock);
+                        break;
+                    }
+
+                    case "NEXT_IS_NOT_ENEMY": {
+                        Statement.Condition newCondition = Condition.NEXT_IS_ENEMY;
+                        simplifyIfElse(ifBlock);
+                        simplifyIfElse(elseBlock);
+                        s.assembleIfElse(newCondition, elseBlock, ifBlock);
+                        break;
+                    }
+
+                    case "NEXT_IS_NOT_FRIEND": {
+                        Statement.Condition newCondition = Condition.NEXT_IS_FRIEND;
+                        simplifyIfElse(ifBlock);
+                        simplifyIfElse(elseBlock);
+                        s.assembleIfElse(newCondition, elseBlock, ifBlock);
+                        break;
+                    }
+
+                    case "NEXT_IS_NOT_WALL": {
+                        Statement.Condition newCondition = Condition.NEXT_IS_WALL;
+                        simplifyIfElse(ifBlock);
+                        simplifyIfElse(elseBlock);
+                        s.assembleIfElse(newCondition, elseBlock, ifBlock);
+                        break;
+                    }
+
+                }
 
                 break;
             }
             case WHILE: {
 
-                // TODO - fill in case
+                Statement label = s.newInstance();
+                Statement.Condition c = s.disassembleWhile(label);
+                simplifyIfElse(label);
+                s.assembleWhile(c, label);
 
                 break;
             }
@@ -178,7 +231,74 @@ public final class CountPrimitiveCalls {
      */
     public static int countOfInstructionCalls(Statement s, String instr) {
 
-        return 0;
+        int count = 0;
+        switch (s.kind()) {
+            case BLOCK: {
+
+                int lengthOfBlock = 0;
+
+                for (int i = 0; i < lengthOfBlock; i++) {
+                    Statement removed = s.removeFromBlock(i);
+                    count += countOfInstructionCalls(removed, instr);
+                    s.addToBlock(i, removed);
+
+                }
+
+                break;
+
+            }
+            case IF: {
+
+                Statement ifLabel = s.newInstance();
+                Statement.Condition c = s.disassembleIf(ifLabel);
+                count += countOfInstructionCalls(ifLabel, instr);
+                s.assembleIf(c, ifLabel);
+
+                break;
+
+            }
+            case IF_ELSE: {
+
+                Statement ifLabel = s.newInstance();
+                Statement elseLabel = s.newInstance();
+                Statement.Condition c = s.disassembleIfElse(ifLabel, elseLabel);
+                count += countOfInstructionCalls(ifLabel, instr);
+                count += countOfInstructionCalls(elseLabel, instr);
+                s.assembleIfElse(c, ifLabel, elseLabel);
+
+                break;
+
+            }
+            case WHILE: {
+
+                Statement whileLabel = s.newInstance();
+                Statement.Condition c = s.disassembleWhile(whileLabel);
+                count += countOfInstructionCalls(whileLabel, instr);
+                s.assembleWhile(c, whileLabel);
+
+                break;
+
+            }
+            case CALL: {
+
+                String call = s.disassembleCall();
+                if (call.equals(instr)) {
+                    count++;
+                }
+
+                s.assembleCall(call);
+
+                break;
+
+            }
+            default: {
+
+                // this will never happen...can you explain why?
+
+                break;
+            }
+        }
+        return count;
     }
 
     /**
@@ -201,6 +321,105 @@ public final class CountPrimitiveCalls {
      */
     public static void renameInstruction(Statement s, String oldName,
             String newName) {
+        switch (s.kind()) {
+            case BLOCK: {
+
+                int length = s.lengthOfBlock();
+                for (int i = 0; i < length; i++) {
+                    Statement subTree = s.removeFromBlock(i);
+                    renameInstruction(subTree, oldName, newName);
+                    s.addToBlock(i, subTree);
+                }
+                break;
+
+            }
+
+            case IF: {
+
+                Statement ifLabel = s.newInstance();
+                Statement.Condition c = s.disassembleIf(ifLabel);
+                renameInstruction(ifLabel, oldName, newName);
+                s.assembleIf(c, ifLabel);
+                break;
+
+            }
+
+            case IF_ELSE: {
+
+                Statement subTreeIf = s.newInstance();
+                Statement subTreeElse = s.newInstance();
+                Statement.Condition ifElseCondition = s
+                        .disassembleIfElse(subTreeIf, subTreeElse);
+                renameInstruction(subTreeIf, oldName, newName);
+                renameInstruction(subTreeElse, oldName, newName);
+                s.assembleIfElse(ifElseCondition, subTreeIf, subTreeElse);
+
+                break;
+            }
+
+            case WHILE: {
+
+                Statement whileLabel = s.newInstance();
+                Statement.Condition c = s.disassembleWhile(whileLabel);
+                renameInstruction(whileLabel, oldName, newName);
+                s.assembleWhile(c, whileLabel);
+                break;
+
+            }
+
+            case CALL: {
+
+                String call = s.disassembleCall();
+
+                if (call.equals(oldName)) {
+                    s.assembleCall(newName);
+                }
+
+                else {
+                    s.assembleCall(call);
+                }
+
+                break;
+            }
+
+            default:
+                break;
+        }
 
     }
+
+    /*
+     * HIGHEST IN THE ROOM
+     *
+     */
+    @SuppressWarnings("incomplete-switch")
+    public static void refactor(Statement s) {
+        switch (s.kind()) {
+            case BLOCK: {
+
+                int blockLength = s.lengthOfBlock();
+
+                for (int i = 0; i < blockLength; i++) {
+                    Statement temp = s.removeFromBlock(i);
+                    refactor(temp);
+                    s.addToBlock(i, temp);
+                }
+
+            }
+
+            case CALL: {
+
+                String call = s.disassembleCall();
+                s.assembleCall(call);
+                if (call.equals("move")) {
+                    Statement block = s.newInstance();
+                    block.addToBlock(0, s);
+                    s.assembleIf(StatementKernel.Condition.NEXT_IS_EMPTY,
+                            block);
+                }
+
+            }
+        }
+    }
+
 }

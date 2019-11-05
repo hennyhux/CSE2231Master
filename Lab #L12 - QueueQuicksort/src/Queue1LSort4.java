@@ -69,21 +69,6 @@ public final class Queue1LSort4<T> extends Queue1L<T> {
         assert back != null : "Violation of: back is not null";
         assert order != null : "Violation of: order is not null";
 
-        while (q.length() != 0) {
-
-            T entry = q.dequeue();
-
-            if (order.compare(entry, partitioner) < 0
-                    || order.compare(entry, partitioner) == 0) {
-                front.enqueue(entry);
-            }
-
-            if (order.compare(entry, partitioner) > 0) {
-                back.enqueue(entry);
-            }
-
-        }
-
     }
 
     @Override

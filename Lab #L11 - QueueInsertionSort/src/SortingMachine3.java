@@ -97,16 +97,24 @@ public class SortingMachine3<T> extends SortingMachineSecondary<T> {
         assert q != null : "Violation of: q is not null";
         assert order != null : "Violation of: order is not null";
 
-        Queue<T> qcopy = q.newInstance();
+        int qLength = q.length();
+        Queue<T> qCopy = q.newInstance();
 
-        while (q.length() != 0 && order.compare(x, q.front()) > 0) {
-            qcopy.enqueue(q.dequeue());
+        for (int i = 0; i < qLength; i++) {
+
+            T entry = q.dequeue();
+
+            if (order.compare(entry, x) > 0) {//x bigger than removed entry
+                qCopy.enqueue(entry);
+            }
+
+            if (order.compare(entry, x) < 0 | order.compare(entry, x) == 0) { //x smaller than removed entry
+                qCopy.enqueue(x);
+                qCopy.enqueue(entry);
+            }
         }
 
-        qcopy.enqueue(x);
-        qcopy.append(q);
-        q.transferFrom(qcopy);
-
+        q.transferFrom(qCopy);
     }
 
     /*

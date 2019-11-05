@@ -250,4 +250,30 @@ public class Stack2<T> extends StackSecondary<T> {
 
     }
 
+    /*
+     * Other methods (overridden for performance reasons) ---------------------
+     */
+
+    @Override
+    public final T top() {
+        assert this.length() > 0 : "Violation of: this /= <>";
+
+        // TODO - fill in body
+
+        assert this.conventionHolds();
+        // Fix this line to return the result after checking the convention.
+        return null;
+    }
+
+    @Override
+    public final T replaceTop(T x) {
+        assert this.length() > 0 : "Violation of: this /= <>";
+
+        // TODO - fill in body
+
+        assert this.conventionHolds();
+        // Fix this line to return the result after checking the convention.
+        return null;
+    }
+
 }
