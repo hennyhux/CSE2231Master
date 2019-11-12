@@ -8,7 +8,7 @@ public class List2Test extends ListTest2a {
 
     @Override
     protected final List<String> constructorTest() {
-        return new List2A<String>();
+        return new List2a<String>();
     }
 
     @Override

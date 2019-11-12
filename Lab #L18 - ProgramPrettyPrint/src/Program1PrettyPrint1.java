@@ -190,7 +190,7 @@ public final class Program1PrettyPrint1 extends Program1 {
         while (contextCopy.size() > 0) {
             Map.Pair<String, Statement> instr = contextCopy.removeAny();
             String key = instr.key();
-            if (instr.key().equals(oldName)) {
+            if (key.equals(oldName)) {
                 key = newName;
             }
             renameInstruction(instr.value(), oldName, newName);
@@ -244,6 +244,7 @@ public final class Program1PrettyPrint1 extends Program1 {
                 Statement.Condition ifCondition = s.disassembleIf(subTree);
                 renameInstruction(subTree, oldName, newName);
                 s.assembleIf(ifCondition, subTree);
+                break;
             }
             case IF_ELSE: {
 
@@ -254,6 +255,7 @@ public final class Program1PrettyPrint1 extends Program1 {
                 renameInstruction(subTreeIf, oldName, newName);
                 renameInstruction(subTreeElse, oldName, newName);
                 s.assembleIfElse(ifElseCondition, subTreeIf, subTreeElse);
+                break;
 
             }
             case WHILE: {
@@ -263,6 +265,7 @@ public final class Program1PrettyPrint1 extends Program1 {
                         .disassembleWhile(subTree);
                 renameInstruction(subTree, oldName, newName);
                 s.assembleWhile(whileCondition, subTree);
+                break;
 
             }
             case CALL: {
@@ -272,6 +275,7 @@ public final class Program1PrettyPrint1 extends Program1 {
                 } else {
                     s.assembleCall(call);
                 }
+                break;
             }
             default:
                 break;

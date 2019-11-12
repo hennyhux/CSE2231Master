@@ -35,7 +35,7 @@ import components.list.ListSecondary;
  *    $this.finish])
  * </pre>
  */
-public class List2A<T> extends ListSecondary<T> {
+public class List2a<T> extends ListSecondary<T> {
 
     /**
      * Node class for singly linked list nodes.
@@ -65,7 +65,7 @@ public class List2A<T> extends ListSecondary<T> {
     private Node lastLeft;
 
     /**
-     * Finish node of linked list.
+     * "Smart node" after the final node of singly linked list.
      */
     private Node postFinish;
 
@@ -94,13 +94,13 @@ public class List2A<T> extends ListSecondary<T> {
     /**
      * No-argument constructor.
      */
-    public List2A() {
+    public List2a() {
         this.createNewRep();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public final List2A<T> newInstance() {
+    public final List2a<T> newInstance() {
         try {
             return this.getClass().getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
@@ -116,14 +116,14 @@ public class List2A<T> extends ListSecondary<T> {
 
     @Override
     public final void transferFrom(List<T> source) {
-        assert source instanceof List2A<?> : ""
+        assert source instanceof List2a<?> : ""
                 + "Violation of: source is of dynamic type List2<?>";
         /*
          * This cast cannot fail since the assert above would have stopped
          * execution in that case: source must be of dynamic type List2<?>, and
          * the ? must be T or the call would not have compiled.
          */
-        List2A<T> localSource = (List2A<T>) source;
+        List2a<T> localSource = (List2a<T>) source;
         this.preFront = localSource.preFront;
         this.lastLeft = localSource.lastLeft;
         this.postFinish = localSource.postFinish;
@@ -188,13 +188,13 @@ public class List2A<T> extends ListSecondary<T> {
 
     @Override
     public final Iterator<T> iterator() {
-        return new List2Iterator();
+        return new List2aIterator();
     }
 
     /**
      * Implementation of {@code Iterator} interface for {@code List2}.
      */
-    private final class List2Iterator implements Iterator<T> {
+    private final class List2aIterator implements Iterator<T> {
 
         /**
          * Current node in the linked list.
@@ -204,8 +204,8 @@ public class List2A<T> extends ListSecondary<T> {
         /**
          * No-argument constructor.
          */
-        private List2Iterator() {
-            this.current = List2A.this.preFront.next;
+        private List2aIterator() {
+            this.current = List2a.this.preFront.next;
         }
 
         @Override

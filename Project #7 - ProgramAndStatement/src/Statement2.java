@@ -246,10 +246,10 @@ public class Statement2 extends StatementSecondary {
 
         Statement2 localS = (Statement2) s;
         Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
-        StatementLabel label = this.rep.disassemble(children);
+        StatementLabel root = this.rep.disassemble(children);
         localS.rep = children.remove(0);
         this.createNewRep(); // clears this
-        return label.condition;
+        return root.condition;
     }
 
     @Override

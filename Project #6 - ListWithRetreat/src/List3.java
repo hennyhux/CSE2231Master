@@ -38,7 +38,7 @@ import components.list.ListSecondary;
  *    $this.postFinish.previous])
  * </pre>
  *
- * @author Put your name here
+ * @author Henry Zhang
  *
  */
 public class List3<T> extends ListSecondary<T> {
@@ -235,13 +235,13 @@ public class List3<T> extends ListSecondary<T> {
     public final void addRightFront(T x) {
         assert x != null : "Violation of: x is not null";
 
-        Node p = new Node();
-        Node q = this.lastLeft;
-        p.data = x;
-        p.next = q.next;
-        q.next.previous = p;
-        q.next = p;
-        p.previous = q;
+        Node newNode = new Node();
+        newNode.data = x;
+        newNode.previous = this.lastLeft;
+        newNode.next = this.lastLeft.next;
+
+        this.lastLeft.next.previous = newNode;
+        this.lastLeft.next = newNode;
         this.rightLength++;
 
         assert this.conventionHolds();
@@ -251,17 +251,15 @@ public class List3<T> extends ListSecondary<T> {
     public final T removeRightFront() {
         assert this.rightLength() > 0 : "Violation of: this.right /= <>";
 
-        Node p = this.lastLeft;
-        Node q = p.next;
-        p.next = q.next;
-        p = q.previous;
-        p.next.previous = p;
-        T x = q.data;
+        Node removedNode = this.lastLeft.next;
+        removedNode.previous.next = removedNode.next;
+        removedNode.next.previous = this.lastLeft;
+
         this.rightLength--;
 
         assert this.conventionHolds();
         // Fix this line to return the result after checking the convention.
-        return x;
+        return removedNode.data;
     }
 
     @Override
