@@ -14,7 +14,7 @@ import components.statement.StatementKernel.Condition;
  * Layered implementation of secondary method {@code generatedCode} for
  * {@code Program}.
  *
- * @author Put your name here
+ * @author Henry Zhang
  *
  */
 public final class Program1GeneratedCode1 extends Program1 {
@@ -144,85 +144,92 @@ public final class Program1GeneratedCode1 extends Program1 {
      *  [reports an appropriate error message to the console and terminates client]
      * </pre>
      */
+    @SuppressWarnings("unused")
     private static void generateCodeForStatement(Statement s,
             Map<String, Statement> context, Sequence<Integer> cp) {
 
-        final int dummy = 0;
+        final int placeHolder = 0;
 
         switch (s.kind()) {
+
             case BLOCK: {
-
                 Statement current = s.newInstance();
-                for (int index = 0; index < s.lengthOfBlock(); index++) {
-                    current = s.removeFromBlock(index);
+
+                for (int i = 0; i < s.lengthOfBlock(); i++) {
+                    current = s.removeFromBlock(i);
                     generateCodeForStatement(current, context, cp);
-                    s.addToBlock(index, current);
+                    s.addToBlock(i, current);
+
                 }
-
                 break;
+
             }
+
             case IF: {
-                Statement b = s.newInstance();
-                Condition c = s.disassembleIf(b);
-                cp.add(cp.length(), conditionalJump(c).byteCode());
+                Statement current = s.newInstance();
+                Condition condition = s.disassembleIf(current);
+                cp.add(cp.length(), conditionalJump(condition).byteCode());
                 int jump = cp.length();
-                cp.add(cp.length(), dummy);
-                generateCodeForStatement(b, context, cp);
+                cp.add(jump, placeHolder);
+                generateCodeForStatement(current, context, cp);
                 cp.replaceEntry(jump, cp.length());
-                s.assembleIf(c, b);
+                s.assembleIf(condition, current);
                 break;
+
             }
+
             case IF_ELSE: {
-
-                Statement b1 = s.newInstance();
-                Statement b2 = s.newInstance();
-                Condition c = s.disassembleIfElse(b1, b2);
-                cp.add(cp.length(), conditionalJump(c).byteCode());
-                cp.add(cp.length(), dummy);
-                generateCodeForStatement(b1, context, cp);
+                Statement currentIf = s.newInstance();
+                Statement currentElse = s.newInstance();
+                Condition condition = s.disassembleIfElse(currentIf,
+                        currentElse);
+                cp.add(cp.length(), conditionalJump(condition).byteCode());
+                int jumpA = cp.length();
+                cp.add(jumpA, placeHolder);
+                generateCodeForStatement(currentElse, context, cp);
                 cp.add(cp.length(), Instruction.valueOf("JUMP").byteCode());
-                int jump = cp.length();
-                cp.add(cp.length(), dummy);
-                cp.replaceEntry(jump, cp.length());
-                generateCodeForStatement(b2, context, cp);
-                cp.replaceEntry(jump, cp.length());
-                s.assembleIfElse(c, b1, b2);
-                break;
+                int jumpB = cp.length();
+                cp.add(jumpB, placeHolder);
 
+                break;
             }
+
             case WHILE: {
-
-                Statement b = s.newInstance();
-                Condition c = s.disassembleWhile(b);
-                cp.add(cp.length(), conditionalJump(c).byteCode());
+                Statement current = s.newInstance();
+                Condition condition = s.disassembleWhile(current);
+                cp.add(cp.length(), conditionalJump(condition).byteCode());
                 int jump = cp.length();
-                cp.add(cp.length(), dummy);
-                generateCodeForStatement(b, context, cp);
+                cp.add(jump, placeHolder);
+                generateCodeForStatement(current, context, cp);
                 cp.add(cp.length(), Instruction.valueOf("JUMP").byteCode());
-                s.assembleWhile(c, b);
+                s.assembleWhile(condition, current);
                 cp.replaceEntry(jump, cp.length());
                 break;
 
             }
-            case CALL: {
 
+            case CALL: {
                 String call = s.disassembleCall();
+
                 if (context.hasKey(call)) {
                     generateCodeForStatement(context.value(call),
                             context.newInstance(), cp);
+
                 } else {
                     call = call.toUpperCase();
                     cp.add(cp.length(), Instruction.valueOf(call).byteCode());
                     call = call.toLowerCase();
+
                 }
-                s.assembleCall(call);
 
                 break;
             }
+
             default: {
                 // this will never happen...
                 break;
             }
+
         }
     }
 

@@ -10,7 +10,7 @@ import components.utilities.FormatChecker;
 /**
  * Program to test method to interpret a BugsWorld virtual machine program.
  *
- * @author Put your name here
+ * @author Henry Zhang
  *
  */
 public final class BugsWorldVMInterpreter {
